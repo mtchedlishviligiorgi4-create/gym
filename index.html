@@ -5,423 +5,321 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Gym">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="theme-color" content="#ffffff">
 <title>Gym</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#f2f2f7;--white:#fff;--text:#1c1c1e;--text2:#3a3a3c;--text3:#8e8e93;
-  --border:#e5e5ea;--blue:#007aff;--blue-bg:#e8f0fe;--green:#34c759;
-  --green-bg:#e8faea;--orange:#ff9500;--orange-bg:#fff4e6;--purple:#af52de;
-  --purple-bg:#f5eefa;--red:#ff3b30;--red-bg:#ffedec;--r:14px;
-  --shadow:0 1px 3px rgba(0,0,0,.04),0 1px 2px rgba(0,0,0,.06);
+--bg:#f2f2f7;--w:#fff;--t:#1c1c1e;--t2:#3a3a3c;--t3:#8e8e93;
+--b:#e5e5ea;--bl:#007aff;--bl2:#e8f0fe;--gn:#34c759;--gn2:#eafcee;
+--or:#ff9500;--pu:#af52de;--pu2:#f5eefa;--rd:#ff3b30;--rd2:#ffedec;
+--r:14px;--sh:0 1px 3px rgba(0,0,0,.05);
 }
-body{
-  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif;
-  background:var(--bg);color:var(--text);line-height:1.48;
-  -webkit-font-smoothing:antialiased;padding-bottom:16px;
-  -webkit-text-size-adjust:100%;
-}
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;background:var(--bg);color:var(--t);line-height:1.48;-webkit-font-smoothing:antialiased;padding-bottom:16px;-webkit-text-size-adjust:100%}
 
-/* Header */
-.hdr{background:var(--white);padding:52px 20px 14px;text-align:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
-.hdr h1{font-size:19px;font-weight:800;letter-spacing:-.4px}
-.hdr p{font-size:12px;color:var(--text3);margin-top:2px}
+.hd{background:var(--w);padding:50px 20px 14px;text-align:center;border-bottom:1px solid var(--b);position:sticky;top:0;z-index:50}
+.hd h1{font-size:19px;font-weight:800;letter-spacing:-.4px}
+.hd p{font-size:12px;color:var(--t3);margin-top:2px}
 
-/* Tabs */
-.tabs{display:flex;gap:6px;padding:10px 14px;background:var(--white);border-bottom:1px solid var(--border);overflow-x:auto;position:sticky;top:72px;z-index:49;-webkit-overflow-scrolling:touch}
+.tabs{display:flex;gap:6px;padding:10px 14px;background:var(--w);border-bottom:1px solid var(--b);overflow-x:auto;position:sticky;top:70px;z-index:49;-webkit-overflow-scrolling:touch}
 .tabs::-webkit-scrollbar{display:none}
-.tab{flex-shrink:0;padding:7px 16px;border-radius:20px;font-size:13px;font-weight:600;color:var(--text3);background:var(--bg);border:none;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
-.tab.active{background:var(--blue);color:#fff}
+.tab{flex-shrink:0;padding:7px 16px;border-radius:20px;font-size:13px;font-weight:600;color:var(--t3);background:var(--bg);border:none;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
+.tab.active{background:var(--bl);color:#fff}
 .tab.today{position:relative}
-.tab.today::before{content:'';position:absolute;top:4px;right:4px;width:7px;height:7px;background:var(--green);border-radius:50%;border:2px solid var(--white)}
+.tab.today::before{content:'';position:absolute;top:3px;right:3px;width:8px;height:8px;background:var(--gn);border-radius:50%;border:2px solid var(--w);box-shadow:0 0 0 1px var(--gn)}
 
-/* Content */
 .cnt{padding:10px 14px}
 .dv{display:none}.dv.active{display:block}
-
-/* Day label */
-.day-lbl{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;padding-left:2px}
+.dlb{font-size:11px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;padding-left:2px}
 
 /* Exercise card */
-.ex{background:var(--white);border-radius:var(--r);margin-bottom:8px;box-shadow:var(--shadow);overflow:hidden;border-left:4px solid transparent}
-.ex.pri{border-left-color:var(--blue)}
-.ex.addon{border-left-color:var(--purple)}
-.ex-main{padding:13px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.ex-top{display:flex;align-items:flex-start;gap:10px}
-.ex-num{display:flex;align-items:center;justify-content:center;min-width:24px;height:24px;border-radius:8px;background:var(--blue-bg);color:var(--blue);font-size:11px;font-weight:700;flex-shrink:0}
-.ex.addon .ex-num{background:var(--purple-bg);color:var(--purple)}
-.ex-name{font-size:15px;font-weight:700;letter-spacing:-.2px;line-height:1.3;flex:1}
-.ex.addon .ex-name{font-size:14px;color:var(--purple)}
-.ex-arrow{width:16px;height:16px;color:var(--text3);transition:transform .2s;flex-shrink:0;margin-top:4px}
-.ex.open .ex-arrow{transform:rotate(180deg)}
+.ex{background:var(--w);border-radius:var(--r);margin-bottom:8px;box-shadow:var(--sh);overflow:hidden;border-left:4px solid transparent}
+.ex.pri{border-left-color:var(--bl)}
+.ex.addon{border-left-color:var(--pu)}
+.ex-main{padding:12px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ex-top{display:flex;align-items:center;gap:10px}
+.ex-num{min-width:24px;height:24px;border-radius:8px;background:var(--bl2);color:var(--bl);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ex.addon .ex-num{background:var(--pu2);color:var(--pu)}
+.ex-name{font-size:14.5px;font-weight:700;letter-spacing:-.2px;line-height:1.3;flex:1}
+.ex.addon .ex-name{font-size:13.5px;color:var(--pu)}
+.ex-arr{width:16px;height:16px;color:var(--t3);transition:transform .2s;flex-shrink:0}
+.ex.open .ex-arr{transform:rotate(180deg)}
 
-/* Chips */
 .chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
-.chip{display:inline-flex;align-items:center;gap:3px;padding:4px 9px;border-radius:7px;font-size:11.5px;font-weight:600;background:var(--bg)}
-.chip .l{font-weight:500;color:var(--text3);font-size:10.5px}
-.chip.tech{background:var(--red-bg);color:var(--red)}
+.chip{padding:4px 9px;border-radius:7px;font-size:11.5px;font-weight:600;background:var(--bg);display:inline-flex;align-items:center;gap:3px}
+.chip .l{font-weight:500;color:var(--t3);font-size:10.5px}
+.chip.tech{background:var(--rd2);color:var(--rd)}
 
-/* Expandable detail */
-.ex-detail{display:none;padding:0 14px 14px;border-top:1px solid var(--border)}
-.ex.open .ex-detail{display:block}
-.ex-notes{font-size:13px;color:var(--text2);line-height:1.55;margin-top:10px}
-.ex-sub{font-size:12px;color:var(--text3);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
-
-/* Log section */
-.log-section{margin-top:12px;background:var(--bg);border-radius:10px;padding:10px 12px}
-.log-title{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
-.log-prev{font-size:10px;font-weight:500;color:var(--blue);text-transform:none;letter-spacing:0}
-.log-grid{display:grid;gap:6px}
-.log-row{display:grid;grid-template-columns:32px 1fr 1fr auto;gap:6px;align-items:center}
-.log-row .set-label{font-size:11px;font-weight:700;color:var(--text3);text-align:center}
-.log-input{
-  width:100%;padding:8px 10px;border-radius:8px;border:1.5px solid var(--border);
-  font-size:14px;font-weight:600;font-family:inherit;color:var(--text);
-  background:var(--white);text-align:center;outline:none;
-  -webkit-appearance:none;appearance:none;
-  transition:border-color .15s;
+/* Weight logging - always visible */
+.ex-wt{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--bg)}
+.ex-wt-prev{font-size:11px;color:var(--t3);flex:1;line-height:1.3}
+.ex-wt-prev strong{color:var(--t2);font-weight:700;font-size:13px}
+.ex-wt-prev .date{font-size:10px;color:var(--t3)}
+.wt-input-wrap{display:flex;align-items:center;gap:6px}
+.wt-input{
+  width:72px;padding:8px 6px;border-radius:10px;border:1.5px solid var(--b);
+  font-size:15px;font-weight:700;font-family:inherit;color:var(--t);
+  background:var(--w);text-align:center;outline:none;-webkit-appearance:none;
+  transition:border-color .15s,box-shadow .15s;
 }
-.log-input:focus{border-color:var(--blue)}
-.log-input::placeholder{color:var(--text3);font-weight:400;font-size:12px}
-.log-check{
-  width:32px;height:32px;border-radius:8px;border:2px solid var(--border);
-  background:var(--white);cursor:pointer;display:flex;align-items:center;
-  justify-content:center;transition:all .15s;-webkit-tap-highlight-color:transparent;
+.wt-input:focus{border-color:var(--bl);box-shadow:0 0 0 3px rgba(0,122,255,.12)}
+.wt-input::placeholder{color:var(--t3);font-weight:400;font-size:12px}
+.wt-unit{font-size:12px;color:var(--t3);font-weight:600}
+.wt-save{
+  width:36px;height:36px;border-radius:10px;border:none;
+  background:var(--bl);color:#fff;cursor:pointer;display:flex;
+  align-items:center;justify-content:center;
+  -webkit-tap-highlight-color:transparent;transition:all .15s;
   flex-shrink:0;
 }
-.log-check.done{background:var(--green);border-color:var(--green)}
-.log-check.done svg{opacity:1}
-.log-check svg{width:16px;height:16px;color:#fff;opacity:0;transition:opacity .15s}
+.wt-save:active{transform:scale(.92)}
+.wt-save.saved{background:var(--gn);animation:pop .3s ease}
+.wt-save svg{width:18px;height:18px}
+@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-/* Previous weight indicator */
-.prev-val{font-size:10px;color:var(--text3);text-align:center;margin-top:2px}
-.prev-val.up{color:var(--green)}
-.prev-val.down{color:var(--red)}
+/* Progress indicator */
+.wt-trend{font-size:10px;font-weight:700;margin-left:4px}
+.wt-trend.up{color:var(--gn)}
+.wt-trend.down{color:var(--rd)}
+.wt-trend.same{color:var(--t3)}
 
-/* Addon separator */
-.addon-sep{display:flex;align-items:center;gap:8px;margin:14px 0 8px;font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.7px}
+/* Detail */
+.ex-det{display:none;padding:0 14px 14px}
+.ex.open .ex-det{display:block;animation:fadeUp .2s ease}
+.ex-notes{font-size:13px;color:var(--t2);line-height:1.55;margin-top:8px}
+.ex-sub{font-size:12px;color:var(--t3);margin-top:8px;padding-top:8px;border-top:1px solid var(--b)}
+
+/* History */
+.ex-hist{margin-top:10px;padding:8px 10px;background:var(--bg);border-radius:10px}
+.ex-hist-title{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.hist-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.04)}
+.hist-row:last-child{border-bottom:none}
+.hist-date{color:var(--t3);font-weight:500}
+.hist-val{font-weight:700;color:var(--t)}
+
+.addon-sep{display:flex;align-items:center;gap:8px;margin:14px 0 8px;font-size:11px;font-weight:700;color:var(--pu);text-transform:uppercase;letter-spacing:.7px}
 .addon-sep::after{content:'';flex:1;height:1px;background:rgba(175,82,222,.2)}
 
-/* Reference */
-.ref{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:8px}
+/* Ref */
+.ref{background:var(--w);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;margin-bottom:8px}
 .ref-h{display:flex;align-items:center;justify-content:space-between;padding:13px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .ref-h h3{font-size:14px;font-weight:700}
-.ref-arr{width:16px;height:16px;color:var(--text3);transition:transform .2s}
-.ref.open .ref-arr{transform:rotate(180deg)}
+.ref-a{width:16px;height:16px;color:var(--t3);transition:transform .2s}
+.ref.open .ref-a{transform:rotate(180deg)}
 .ref-b{display:none;padding:0 14px 12px}
 .ref.open .ref-b{display:block}
-.ref-i{font-size:12.5px;color:var(--text2);line-height:1.6;margin-bottom:6px;padding-left:10px;border-left:2px solid var(--border)}
-.ref-i strong{color:var(--text)}
+.ref-i{font-size:12.5px;color:var(--t2);line-height:1.6;margin-bottom:6px;padding-left:10px;border-left:2px solid var(--b)}
+.ref-i strong{color:var(--t)}
 
-/* Session banner */
-.session-bar{
-  margin:0 14px 10px;padding:10px 14px;border-radius:10px;
-  background:linear-gradient(135deg,#e8f0fe,#e8faea);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.session-bar .left{font-size:12px;font-weight:600;color:var(--text2)}
-.session-bar .left span{color:var(--green);font-weight:700}
-.session-bar button{
-  padding:6px 14px;border-radius:8px;border:none;
-  background:var(--blue);color:#fff;font-size:12px;font-weight:600;
-  cursor:pointer;-webkit-tap-highlight-color:transparent;
-}
-.session-bar button.finish{background:var(--green)}
-
-/* Footer */
-.ftr{text-align:center;padding:20px 16px 8px;font-size:11px;color:var(--text3)}
-
-/* Toast */
-.toast{
-  position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);
-  background:var(--text);color:#fff;padding:10px 20px;border-radius:20px;
-  font-size:13px;font-weight:600;z-index:999;transition:transform .3s ease;
-  box-shadow:0 4px 20px rgba(0,0,0,.15);
-}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--t);color:#fff;padding:10px 24px;border-radius:22px;font-size:13px;font-weight:600;z-index:999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 4px 20px rgba(0,0,0,.18)}
 .toast.show{transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
-
-<div class="hdr">
-  <h1>HYPERTROPHY PROGRAM</h1>
-  <p>5-Day Full Body · Tue / Wed / Fri / Sat / Sun</p>
-</div>
+<div class="hd"><h1>HYPERTROPHY PROGRAM</h1><p>5-Day Full Body · Tue / Wed / Fri / Sat / Sun</p></div>
 <div class="tabs" id="tabs"></div>
-<div id="session-area"></div>
 <div class="cnt" id="cnt"></div>
 <div class="toast" id="toast"></div>
-
 <script>
-// ===== DATA =====
-const DAYS=[
-{short:"Tue",name:"TUESDAY",label:"Full Body #1",dow:2,ex:[
-{n:"Low Incline DB Press (30°)",s:3,r:"8–12",rpe:"7→9",rest:"2-3m",tech:"Lengthened partials",notes:"Train FIRST while fresh. 15-30° bench. Retract scapulae, slight arch. 2-3s eccentric. Deep stretch at bottom. Last set: bottom-half partials after failure.",sub:"Smith Machine Incline (30°)",pri:1},
-{n:"Hack Squat",s:3,r:"12–15",rpe:"7→9",rest:"2-3m",notes:"Moderate weight — knee health first. Controlled eccentric. Don't chase PRs on leg compounds.",sub:"Leg Press (feet moderate-high)"},
-{n:"Chest-Supported Row (wide)",s:3,r:"8–12",rpe:"7→9",rest:"2m",notes:"Elbows ~45°. Squeeze scapulae 1s at top. Full protraction at bottom for deep stretch. Zero spinal loading.",sub:"Machine Row (wide)"},
-{n:"Behind-the-Back Cable Lateral Raise",s:4,r:"15–20",rpe:"8→10",rest:"60s",tech:"Myo-reps",notes:"Neutral grip (NOT 'pour water'). Above parallel. 2-3s eccentric. Last set myo-reps: 15 reps → 15s rest → 5+5+5.",sub:"Incline DB Lateral Raise (45-60°)",pri:1},
-{n:"Standing Calf Raise",s:3,r:"10–15",rpe:"8→10",rest:"60s",tech:"Myo-reps + LPs",notes:"Knees FULLY LOCKED. 2-3s deep stretch at bottom. Between sets: 20s loaded stretch. Toes STRAIGHT today. Last set: myo-reps + bottom-half partials.",sub:"Leg Press Calf Raise",pri:1},
-{n:"Cable Rope Crunch",s:3,r:"10–15",rpe:"8→10",rest:"60s",tech:"Dropset",notes:"Round lower back as you crunch. 2s eccentric. If >30 reps → increase weight.",sub:"Machine Crunch"},
-{n:"__SEP__"},
-{n:"Plate Neck Curl (face up)",s:3,r:"10–15",rpe:"7→9",rest:"30-45s",notes:"[HYPERTROPHY] Towel + plate. WK1: ONLY 2 SETS at 5 lbs. Stretch neck 2 min first.",addon:1},
-{n:"Reverse Curl (EZ bar)",s:3,r:"12–15",rpe:"8→10",rest:"30-45s",notes:"Inner EZ angles. Elbows pinned. Wrists rigid. Targets brachioradialis.",addon:1},
-{n:"Hammer Curl",s:2,r:"10–12",rpe:"8→10",rest:"30-45s",notes:"Straight (not cross-body). Brachialis + forearm width.",addon:1},
+const CHV='<svg class="ex-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>';
+const CHV2='<svg class="ref-a" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>';
+const SAVE_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>';
+
+const D=[
+{sh:"Tue",nm:"TUESDAY",lb:"Full Body #1",dw:2,ex:[
+{n:"Low Incline DB Press (30°)",s:3,r:"8–12",rpe:"7→9",rest:"2-3m",tech:"Lengthened partials",nt:"Train FIRST while fresh. 15-30° bench. Retract scapulae, slight arch. 2-3s eccentric. Deep stretch at bottom. Last set: bottom-half partials after failure.",su:"Smith Machine Incline (30°)",p:1},
+{n:"Hack Squat",s:3,r:"12–15",rpe:"7→9",rest:"2-3m",nt:"Moderate weight — knee health first. Controlled eccentric. Don't chase PRs on compounds.",su:"Leg Press (feet moderate-high)"},
+{n:"Chest-Supported Row (wide)",s:3,r:"8–12",rpe:"7→9",rest:"2m",nt:"Elbows ~45°. Squeeze scapulae 1s at top. Full protraction at bottom for deep stretch.",su:"Machine Row (wide)"},
+{n:"BTB Cable Lateral Raise",s:4,r:"15–20",rpe:"8→10",rest:"60s",tech:"Myo-reps",nt:"Neutral grip (NOT 'pour water'). Above parallel. 2-3s eccentric. Last set myo-reps: 15→15s→5+5+5.",su:"Incline DB Lat Raise (45-60°)",p:1},
+{n:"Standing Calf Raise",s:3,r:"10–15",rpe:"8→10",rest:"60s",tech:"Myo-reps + LPs",nt:"Knees FULLY LOCKED. 2-3s deep stretch. Between sets: 20s loaded stretch. Toes STRAIGHT today.",su:"Leg Press Calf Raise",p:1},
+{n:"Cable Rope Crunch",s:3,r:"10–15",rpe:"8→10",rest:"60s",tech:"Dropset",nt:"Round lower back. 2s eccentric. If >30 reps → add weight.",su:"Machine Crunch"},
+{n:"__S__"},
+{n:"Plate Neck Curl (face up)",s:3,r:"10–15",rpe:"7→9",rest:"30-45s",nt:"[HYPERTROPHY] Towel+plate. WK1: 2 SETS at 5 lbs only. Stretch neck 2 min first.",a:1},
+{n:"Reverse Curl (EZ bar)",s:3,r:"12–15",rpe:"8→10",rest:"30-45s",nt:"Inner EZ angles. Elbows pinned. Wrists rigid. Brachioradialis.",a:1},
+{n:"Hammer Curl",s:2,r:"10–12",rpe:"8→10",rest:"30-45s",nt:"Straight (not cross-body). Brachialis + forearm width.",a:1},
 ]},
-{short:"Wed",name:"WEDNESDAY",label:"Full Body #2 · No dual-cable",dow:3,ex:[
-{n:"Machine Incline Chest Press",s:3,r:"12–15",rpe:"8→10",rest:"90s",tech:"Dropset",notes:"Lighter than Tue. Focus on contraction & stretch. Pin-loaded = easy dropset. 2s eccentric.",sub:"Incline DB Fly (30°)",pri:1},
-{n:"Seated Leg Curl",s:4,r:"10–15",rpe:"8→10",rest:"90s",tech:"Lengthened partials",notes:"Must be seated (seated grows 2x more than lying). Lean forward. 2s eccentric. Last set: bottom-half partials.",sub:"Single-Leg Seated Curl",pri:1},
-{n:"Close-Grip Neutral Lat Pulldown",s:3,r:"10–15",rpe:"8→10",rest:"90s",notes:"Neutral grip (palms facing — less joint stress). Pull elbows DOWN toward hips. Full stretch at top.",sub:"Machine Pulldown"},
-{n:"Reverse Pec Deck",s:3,r:"15–20",rpe:"8→10",rest:"60s",tech:"Myo-reps",notes:"Light weight. 1-2s peak hold. Myo-reps last set: 15 → 5+5+5.",sub:"Cable Reverse Fly"},
-{n:"OH Cable Triceps Ext (BAR)",s:3,r:"10–15",rpe:"8→10",rest:"90s",tech:"Lengthened partials",notes:"Use BAR attachment. Push ELBOWS FORWARD on eccentric. 1s pause at bottom. Produces 1.5x more growth than pushdowns.",sub:"OH EZ Bar Extension",pri:1},
-{n:"Bayesian Cable Curl",s:3,r:"10–15",rpe:"8→10",rest:"60s",tech:"Myo-reps",notes:"Face away from lowest pulley. 10-15° waiter's bow. Elbow behind torso. Cable NEVER touches forearm. 2-3s eccentrics.",sub:"Incline DB Curl"},
-{n:"Hip Abduction ⇄ Hip Adduction",s:3,r:"15–25 ea",rpe:"8→10",rest:"60s",tech:"Constant tension",notes:"SUPERSET: Abd → immediately → Add. Lean forward 30-45° for glute max. Glutes off seat.",sub:"—",pri:1},
-{n:"__SEP__"},
-{n:"DB Lateral Raise",s:2,r:"15–20",rpe:"8→9",rest:"30-45s",notes:"Neutral grip, above parallel. 2-3s eccentric. Frequency dose.",addon:1},
-{n:"BB Wrist Curl (behind back)",s:2,r:"15–20",rpe:"8→9",rest:"30-45s",notes:"Roll to fingertips, curl fingers then wrists. Forearm flexors.",addon:1},
+{sh:"Wed",nm:"WEDNESDAY",lb:"Full Body #2 · No dual-cable",dw:3,ex:[
+{n:"Machine Incline Press",s:3,r:"12–15",rpe:"8→10",rest:"90s",tech:"Dropset",nt:"Lighter than Tue. Focus on contraction & stretch. Pin-loaded dropset.",su:"Incline DB Fly (30°)",p:1},
+{n:"Seated Leg Curl",s:4,r:"10–15",rpe:"8→10",rest:"90s",tech:"Lengthened partials",nt:"Must be seated (grows 2x more than lying). Lean forward. 2s ecc. Last set: bottom-half partials.",su:"Single-Leg Seated Curl",p:1},
+{n:"Close-Grip Neutral Lat PD",s:3,r:"10–15",rpe:"8→10",rest:"90s",nt:"Neutral grip. Pull elbows DOWN toward hips. Full stretch at top.",su:"Machine Pulldown"},
+{n:"Reverse Pec Deck",s:3,r:"15–20",rpe:"8→10",rest:"60s",tech:"Myo-reps",nt:"Light. 1-2s peak hold. Myo-reps: 15→5+5+5.",su:"Cable Reverse Fly"},
+{n:"OH Cable Triceps Ext (BAR)",s:3,r:"10–15",rpe:"8→10",rest:"90s",tech:"Lengthened partials",nt:"BAR attachment. ELBOWS FORWARD on eccentric. 1s pause at bottom. Produces 1.5x more growth than pushdowns.",su:"OH EZ Bar Extension",p:1},
+{n:"Bayesian Cable Curl",s:3,r:"10–15",rpe:"8→10",rest:"60s",tech:"Myo-reps",nt:"Lowest pulley. 10-15° waiter's bow. Elbow behind torso. Cable NEVER touches forearm. 2-3s ecc.",su:"Incline DB Curl"},
+{n:"Hip Abd ⇄ SS Hip Add",s:3,r:"15–25 ea",rpe:"8→10",rest:"60s",tech:"Constant tension",nt:"SUPERSET: Abd→Add. Lean forward 30-45° for glute max. Glutes off seat.",su:"—",p:1},
+{n:"__S__"},
+{n:"DB Lateral Raise",s:2,r:"15–20",rpe:"8→9",rest:"30-45s",nt:"Neutral grip, above parallel. 2-3s eccentric.",a:1},
+{n:"BB Wrist Curl (behind back)",s:2,r:"15–20",rpe:"8→9",rest:"30-45s",nt:"Roll to fingertips, curl fingers then wrists.",a:1},
 ]},
-{short:"Fri",name:"FRIDAY",label:"Full Body #3 · Heaviest day",dow:5,ex:[
-{n:"Smith Machine Incline Press (30°)",s:3,r:"6–10",rpe:"7→9",rest:"2-3m",notes:"Heaviest chest day. 30°. Retract scapulae. 2-3s eccentric. Add weight weekly. Pure overload.",sub:"Machine Incline Press",pri:1},
-{n:"Leg Press (feet moderate-high)",s:4,r:"12–15",rpe:"7→9",rest:"2-3m",notes:"Moderate-high feet (less knee shear). Moderate weight. Controlled negative.",sub:"Machine Squat"},
-{n:"Seated Cable Row (V-bar → waist)",s:3,r:"8–12",rpe:"7→9",rest:"2m",notes:"Pull to WAIST not chest. Forward lean at stretch. Close neutral = lower lat emphasis.",sub:"Machine Row (close) / Meadows Row",pri:1},
-{n:"DB Lateral Raise",s:4,r:"12–20",rpe:"8→10",rest:"60s",tech:"Rest-pause",notes:"Neutral grip. Above parallel. 2-3s eccentric. REST-PAUSE last set: failure → 15s → failure → 15s → failure.",sub:"Incline DB Lateral Raise (45-60°)",pri:1},
-{n:"Standing Calf Raise",s:3,r:"10–15",rpe:"8→10",rest:"60s",tech:"Myo-reps + LPs",notes:"Knees LOCKED. 2-3s stretch. 20s loaded stretch between sets. TOES OUT today (medial gastroc).",sub:"Donkey Calf Raise",pri:1},
-{n:"45° Back Extension",s:3,r:"12–20",rpe:"8→9",rest:"90s",notes:"Pad high. Rounding at bottom → extend to neutral ONLY. Never hyperextend. RPE 8-9 MAX.",sub:"Reverse Hyperextension",pri:1},
-{n:"Hanging Leg Raise",s:2,r:"10–20",rpe:"8→10",rest:"60s",notes:"Pelvic tilt at top. Don't swing. If over time: trim to 1 set.",sub:"Reverse Crunch"},
-{n:"__SEP__"},
-{n:"Plate Neck Extension (face down)",s:2,r:"6–8",rpe:"7→9",rest:"30-45s",notes:"[STRENGTH] Heavier plate, lower reps. Extend to neutral ONLY.",addon:1},
-{n:"Reverse Curl (cable)",s:2,r:"12–15",rpe:"8→10",rest:"30-45s",notes:"Brachioradialis. Rotation: EZ bar Tue → cable Fri.",addon:1},
+{sh:"Fri",nm:"FRIDAY",lb:"Full Body #3 · Heaviest day",dw:5,ex:[
+{n:"Smith Incline Press (30°)",s:3,r:"6–10",rpe:"7→9",rest:"2-3m",nt:"Heaviest chest day. Retract scapulae. 2-3s ecc. Add weight weekly.",su:"Machine Incline Press",p:1},
+{n:"Leg Press (mod-high feet)",s:4,r:"12–15",rpe:"7→9",rest:"2-3m",nt:"Moderate-high feet (less knee shear). Moderate weight. Controlled negative.",su:"Machine Squat"},
+{n:"Seated Cable Row (V→waist)",s:3,r:"8–12",rpe:"7→9",rest:"2m",nt:"Pull to WAIST. Forward lean at stretch. Close neutral = lower lat emphasis.",su:"Machine Row / Meadows Row",p:1},
+{n:"DB Lateral Raise",s:4,r:"12–20",rpe:"8→10",rest:"60s",tech:"Rest-pause",nt:"Neutral grip. Above parallel. 2-3s ecc. REST-PAUSE last set: failure→15s→failure→15s→failure.",su:"Incline DB Lat Raise (45-60°)",p:1},
+{n:"Standing Calf Raise",s:3,r:"10–15",rpe:"8→10",rest:"60s",tech:"Myo-reps + LPs",nt:"Knees LOCKED. 2-3s stretch. 20s loaded stretch between sets. TOES OUT today.",su:"Donkey Calf Raise",p:1},
+{n:"45° Back Extension",s:3,r:"12–20",rpe:"8→9",rest:"90s",nt:"Pad high. Rounding at bottom → neutral ONLY. Never hyperextend. RPE 8-9 MAX.",su:"Reverse Hyperextension",p:1},
+{n:"Hanging Leg Raise",s:2,r:"10–20",rpe:"8→10",rest:"60s",nt:"Pelvic tilt at top. Don't swing. If over time: trim to 1 set.",su:"Reverse Crunch"},
+{n:"__S__"},
+{n:"Plate Neck Ext (face down)",s:2,r:"6–8",rpe:"7→9",rest:"30-45s",nt:"[STRENGTH] Heavier plate, lower reps. Extend to neutral ONLY.",a:1},
+{n:"Reverse Curl (cable)",s:2,r:"12–15",rpe:"8→10",rest:"30-45s",nt:"Brachioradialis. Rotation: EZ bar Tue → cable Fri.",a:1},
 ]},
-{short:"Sat",name:"SATURDAY",label:"Full Body #4",dow:6,ex:[
-{n:"Low-to-High Cable Fly",s:3,r:"12–15",rpe:"8→10",rest:"90s",tech:"Lengthened partials",notes:"Pulleys lowest. Upward arc. 15-20° elbow bend. Deep stretch. Last set: bottom-half partials. Dual-cable OK on weekends.",sub:"Incline DB Fly (30°)",pri:1},
-{n:"Seated Leg Curl",s:4,r:"10–15",rpe:"8→10",rest:"90s",notes:"Second ham session. Seated, lean forward, slow eccentric. Straight sets today.",sub:"Single-Leg Seated Curl"},
-{n:"Neutral-Grip Machine Pulldown",s:3,r:"10–15",rpe:"8→10",rest:"60s",tech:"Lengthened partials",notes:"Elbows toward hips for lower lat emphasis. Different from Wed (machine vs cable). Full stretch at top.",sub:"Single-Arm Kneeling Cable PD",pri:1},
-{n:"Behind-the-Back Cable Lateral Raise",s:4,r:"15–20",rpe:"8→10",rest:"60s",tech:"Dropset",notes:"Neutral grip. Above parallel. 2-3s eccentric. Dropset last set.",sub:"Incline DB Lateral Raise / Cable Y-Raise",pri:1},
-{n:"OH Cable Triceps Ext (BAR)",s:3,r:"10–15",rpe:"8→10",rest:"90s",tech:"Dropset + LPs",notes:"BAR attachment. Elbows FORWARD. Last set: full ROM → drop 25% → bottom-half partials.",sub:"OH EZ Bar Extension",pri:1},
-{n:"Assisted Dips",s:3,r:"8–12",rpe:"7→9",rest:"2m",notes:"Slow 2-3s negative. At least 90° elbow. Covers lateral head + lower chest.",sub:"Cable Pushdown (bar)"},
-{n:"Hammer Curl",s:3,r:"10–12",rpe:"8→10",rest:"60s",tech:"Rest-pause",notes:"Straight not cross-body. Rest-pause last set: failure → 15s → failure → 15s → failure.",sub:"Neutral-Grip Preacher Curl",pri:1},
-{n:"__SEP__"},
-{n:"Standing Calf Raise",s:3,r:"10–15",rpe:"8→9",rest:"30-45s",notes:"Knees locked. Deep stretch. TOES IN today (lateral gastroc). 20s loaded stretch.",addon:1},
-{n:"45° Back Extension (light)",s:2,r:"15–20",rpe:"8",rest:"30-45s",notes:"Second lower back. BW or light plate only.",addon:1},
-{n:"Reverse Pec Deck",s:2,r:"15–20",rpe:"8→9",rest:"30-45s",notes:"Quick rear delt dose. Light, 1-2s peak squeeze.",addon:1},
-{n:"Reverse Curl (EZ bar)",s:2,r:"12–15",rpe:"8→9",rest:"30-45s",notes:"Third brachioradialis session.",addon:1},
+{sh:"Sat",nm:"SATURDAY",lb:"Full Body #4",dw:6,ex:[
+{n:"Low-to-High Cable Fly",s:3,r:"12–15",rpe:"8→10",rest:"90s",tech:"Lengthened partials",nt:"Pulleys lowest. Upward arc. 15-20° elbow bend. Deep stretch. Bottom-half partials last set.",su:"Incline DB Fly (30°)",p:1},
+{n:"Seated Leg Curl",s:4,r:"10–15",rpe:"8→10",rest:"90s",nt:"Second ham session. Straight sets today — recovery from Wednesday.",su:"Single-Leg Seated Curl"},
+{n:"Neutral Machine PD (close)",s:3,r:"10–15",rpe:"8→10",rest:"60s",tech:"Lengthened partials",nt:"Elbows toward hips. Full stretch at top. Different from Wed.",su:"Single-Arm Kneeling Cable PD",p:1},
+{n:"BTB Cable Lateral Raise",s:4,r:"15–20",rpe:"8→10",rest:"60s",tech:"Dropset",nt:"Neutral grip. Above parallel. 2-3s ecc. Dropset last set.",su:"Incline DB Lat Raise / Cable Y-Raise",p:1},
+{n:"OH Cable Triceps Ext (BAR)",s:3,r:"10–15",rpe:"8→10",rest:"90s",tech:"Dropset + LPs",nt:"BAR. Elbows forward. Last set: full ROM→drop 25%→bottom-half partials.",su:"OH EZ Bar Extension",p:1},
+{n:"Assisted Dips",s:3,r:"8–12",rpe:"7→9",rest:"2m",nt:"Slow 2-3s negative. At least 90° elbow. Lateral head + chest.",su:"Cable Pushdown (bar)"},
+{n:"Hammer Curl",s:3,r:"10–12",rpe:"8→10",rest:"60s",tech:"Rest-pause",nt:"Straight not cross-body. RP last: failure→15s→failure→15s→failure.",su:"Neutral-Grip Preacher Curl",p:1},
+{n:"__S__"},
+{n:"Standing Calf Raise",s:3,r:"10–15",rpe:"8→9",rest:"30-45s",nt:"Knees locked. TOES IN today. 20s loaded stretch.",a:1},
+{n:"45° Back Ext (light)",s:2,r:"15–20",rpe:"8",rest:"30-45s",nt:"Second lower back. BW or light plate.",a:1},
+{n:"Reverse Pec Deck",s:2,r:"15–20",rpe:"8→9",rest:"30-45s",nt:"Quick rear delt dose. 1-2s peak squeeze.",a:1},
+{n:"Reverse Curl (EZ bar)",s:2,r:"12–15",rpe:"8→9",rest:"30-45s",nt:"Third brachioradialis session.",a:1},
 ]},
-{short:"Sun",name:"SUNDAY",label:"Full Body #5 · Pump Day",dow:0,ex:[
-{n:"Machine Incline Press",s:3,r:"15–20",rpe:"8→10",rest:"60s",tech:"Dropset",notes:"Lightest pressing day. Pin-loaded dropset. Squeeze & stretch > load.",sub:"Incline DB Fly (30°)",pri:1},
-{n:"Leg Extension",s:3,r:"12–15",rpe:"8→10",rest:"60s",tech:"Lengthened partials",notes:"PRIMARY quad overload (knee-friendly). Chase weight HERE. Bottom-half partials last set.",sub:"Single-Leg Extension",pri:1},
-{n:"Behind-the-Back Cable Lateral Raise",s:4,r:"20–25",rpe:"9→10",rest:"45s",tech:"Myo-reps",notes:"Highest reps of week. Myo-reps: 20 → 5+5+5 with 15s rest. Side delts recover in seconds.",sub:"Incline DB Lateral Raise / Cable Y-Raise",pri:1},
-{n:"Reverse Pec Deck",s:3,r:"20–25",rpe:"9→10",rest:"45s",tech:"Myo-reps",notes:"Same myo-rep protocol. Light, constant tension, 1-2s peak squeeze.",sub:"Cable Reverse Fly"},
-{n:"Hip Abduction ⇄ Hip Adduction",s:3,r:"15–25 ea",rpe:"8→10",rest:"60s",tech:"Constant tension",notes:"SUPERSET. Lean forward 30-45°. Glutes off seat. 3×25 target.",sub:"—",pri:1},
-{n:"Standing Calf Raise",s:3,r:"15–20",rpe:"9→10",rest:"45s",tech:"ALL sets myo-reps",notes:"Every set: 15 activation + mini-sets. Knees LOCKED. 2-3s stretch. TOES STRAIGHT. 20s inter-set loaded stretch.",sub:"Leg Press Calf Raise",pri:1},
-{n:"Cable Pushdown (rope)",s:3,r:"10–15",rpe:"8→10",rest:"60s",tech:"Dropset",notes:"Covers the lateral head that OH extensions miss. Spread rope at bottom. Drop 25%, rep out.",sub:"Assisted Dip"},
-{n:"__SEP__"},
-{n:"Plate Neck Curl (face up)",s:2,r:"15–25",rpe:"8→9",rest:"30-45s",notes:"[METABOLIC] Lightest weight, highest reps. DUP: Tue=hyp, Fri=str ext, Sun=met.",addon:1},
-{n:"Bayesian Cable Curl",s:2,r:"10–15",rpe:"8→9",rest:"30-45s",tech:"Myo-reps",notes:"Second Bayesian session. Great for visible arm size.",addon:1},
-{n:"Neutral-Grip Machine Pulldown",s:2,r:"15–20",rpe:"8→9",rest:"30-45s",notes:"Quick lat pump. Elbows to hips.",addon:1},
-{n:"BB Wrist Curl (behind back)",s:3,r:"15–20",rpe:"8→9",rest:"30-45s",notes:"Forearm flexors. 3 sets = volume ceiling.",addon:1},
+{sh:"Sun",nm:"SUNDAY",lb:"Full Body #5 · Pump Day",dw:0,ex:[
+{n:"Machine Incline Press",s:3,r:"15–20",rpe:"8→10",rest:"60s",tech:"Dropset",nt:"Lightest pressing day. Pin-loaded dropset. Squeeze & stretch > load.",su:"Incline DB Fly (30°)",p:1},
+{n:"Leg Extension",s:3,r:"12–15",rpe:"8→10",rest:"60s",tech:"Lengthened partials",nt:"PRIMARY quad overload (knee-friendly). Chase weight HERE. Bottom-half partials last set.",su:"Single-Leg Extension",p:1},
+{n:"BTB Cable Lateral Raise",s:4,r:"20–25",rpe:"9→10",rest:"45s",tech:"Myo-reps",nt:"Highest reps of week. Myo-reps: 20→5+5+5 with 15s rest.",su:"Incline DB Lat Raise / Cable Y-Raise",p:1},
+{n:"Reverse Pec Deck",s:3,r:"20–25",rpe:"9→10",rest:"45s",tech:"Myo-reps",nt:"Same myo-rep protocol. Light, constant tension, 1-2s peak squeeze.",su:"Cable Reverse Fly"},
+{n:"Hip Abd ⇄ SS Hip Add",s:3,r:"15–25 ea",rpe:"8→10",rest:"60s",tech:"Constant tension",nt:"SUPERSET. Lean forward 30-45°. Glutes off seat. 3×25 target.",su:"—",p:1},
+{n:"Standing Calf Raise",s:3,r:"15–20",rpe:"9→10",rest:"45s",tech:"ALL sets myo-reps",nt:"Every set: 15+mini-sets. Knees LOCKED. 2-3s stretch. TOES STRAIGHT. 20s inter-set loaded stretch.",su:"Leg Press Calf Raise",p:1},
+{n:"Cable Pushdown (rope)",s:3,r:"10–15",rpe:"8→10",rest:"60s",tech:"Dropset",nt:"Lateral head (covers what OH ext misses). Spread rope at bottom. Drop 25%.",su:"Assisted Dip"},
+{n:"__S__"},
+{n:"Plate Neck Curl (face up)",s:2,r:"15–25",rpe:"8→9",rest:"30-45s",nt:"[METABOLIC] Lightest weight, highest reps.",a:1},
+{n:"Bayesian Cable Curl",s:2,r:"10–15",rpe:"8→9",rest:"30-45s",tech:"Myo-reps",nt:"Second Bayesian session. Great for visible arm size.",a:1},
+{n:"Neutral Machine PD",s:2,r:"15–20",rpe:"8→9",rest:"30-45s",nt:"Quick lat pump. Elbows to hips.",a:1},
+{n:"BB Wrist Curl (behind back)",s:3,r:"15–20",rpe:"8→9",rest:"30-45s",nt:"Forearm flexors. 3 sets = volume ceiling.",a:1},
 ]}
 ];
 
 const REFS=[
-{t:"⚡ Intensity Techniques",items:[
-"<strong>Myo-reps:</strong> 12-20 reps near failure → 15s rest → 5 reps → repeat until under 3 reps. Best for side delts & calves.",
-"<strong>Rest-pause:</strong> Failure → 15s → failure → 15s → failure. Only technique proven strictly better than traditional sets.",
-"<strong>Dropset:</strong> Last set → drop 20-25% → rep out → drop again. Pin-loaded machines only.",
-"<strong>Lengthened partials:</strong> After full ROM failure, continue with bottom-half partials. Best evidence for calves: 2x more growth.",
-"<strong>Budget:</strong> 70-80% = normal straight sets. Max 2-3 technique sets per workout."
-]},
-{t:"📈 Mesocycle & Overload",items:[
-"<strong>4 weeks + deload.</strong> Wk1: RPE 7-8. Wk2: RPE 8-9. Wk3: RPE 8-9 (hardest). Wk4: RPE 9-10. Deload: same weight, half the sets.",
-"<strong>Double progression:</strong> ALL sets hit top of rep range at target RPE → increase weight next session.",
-"<strong>Machine jumps:</strong> Use wider rep windows (10-15) for 5-6 productive weeks per weight level.",
-"Film working sets occasionally to calibrate RPE accuracy."
-]},
-{t:"🏋️ Neck Ramp-Up",items:[
-"<strong>Week 1:</strong> ONLY 2 sets at 5 lbs. Neck DOMS is uniquely brutal.",
-"<strong>DUP:</strong> Tue = Hyp curls 10-15. Fri = Strength ext 6-8. Sun = Metabolic curls 15-25.",
-"Stretch 2 min before. Never before heavy compounds. 48-72 hrs between sessions.",
-"<strong>Buy a $15-20 harness</strong> once extensions exceed ~45 lbs."
-]},
-{t:"🍗 Nutrition",items:[
-"<strong>2700-3100 kcal/day. 140-154g protein. 0.25-0.5 kg/wk gain.</strong>",
-"Without a surplus this program will not deliver results."
-]},
-{t:"🎯 Key Form Cues",items:[
-"<strong>All pressing:</strong> Retract & depress scapulae + slight arch.",
-"<strong>Lateral raises:</strong> Neutral grip. Above parallel. 2-3s eccentric.",
-"<strong>Bayesian curl:</strong> Lowest pulley. 10-15° waiter's bow. Elbow behind torso. Cable never touches forearm.",
-"<strong>Calves:</strong> Knees LOCKED. 2-3s stretch. 20s loaded inter-set stretch. Rotate toes each session.",
-"<strong>OH triceps ext:</strong> BAR attachment. Elbows FORWARD on eccentric."
-]},
-{t:"🔄 Exercise Rotation",items:[
-"<strong>Chest:</strong> Low Incline DB ↔ Smith Incline ↔ Machine Incline ↔ Incline DB Fly",
-"<strong>Side delts:</strong> BTB Cable ↔ Incline DB Lateral ↔ Egyptian ↔ Cross-Body Cable",
-"<strong>Biceps:</strong> Bayesian ↔ Preacher (brachialis) ↔ Incline DB (long head)",
-"<strong>Back:</strong> Chest-Supported Row ↔ Cable V-bar ↔ Machine Row"
-]}
+{t:"⚡ Intensity Techniques",i:["<strong>Myo-reps:</strong> 12-20 reps near failure → 15s rest → 5 reps → repeat until under 3. Best for side delts & calves.","<strong>Rest-pause:</strong> Failure → 15s → failure → 15s → failure. Only technique proven strictly better.","<strong>Dropset:</strong> Drop 20-25% → rep out → drop again. Pin-loaded machines only.","<strong>Lengthened partials:</strong> After full ROM failure, bottom-half only. Best for calves: 2x more growth.","<strong>Budget:</strong> 70-80% = normal straight sets. Max 2-3 technique sets per workout."]},
+{t:"📈 Mesocycle & Overload",i:["<strong>4 weeks + deload.</strong> Wk1: RPE 7-8. Wk2: 8-9. Wk3: 8-9. Wk4: 9-10. Deload: same weight, half sets.","<strong>Double progression:</strong> ALL sets hit top of rep range at target RPE → increase weight.","<strong>Machines:</strong> Wider rep windows (10-15) for 5-6 weeks per weight level.","Film working sets to calibrate RPE."]},
+{t:"🏋️ Neck Ramp-Up",i:["<strong>Week 1:</strong> ONLY 2 sets at 5 lbs.","<strong>DUP:</strong> Tue=Hyp curls 10-15. Fri=Str ext 6-8. Sun=Met curls 15-25.","Stretch 2 min before. Never before compounds. Buy $15-20 harness."]},
+{t:"🍗 Nutrition",i:["<strong>2700-3100 kcal/day. 140-154g protein. 0.25-0.5 kg/wk gain.</strong>","Without a surplus this program will not deliver results."]},
+{t:"🎯 Form Cues",i:["<strong>Pressing:</strong> Retract & depress scapulae + slight arch.","<strong>Lat raises:</strong> Neutral grip. Above parallel. 2-3s eccentric.","<strong>Bayesian curl:</strong> Lowest pulley. 10-15° bow. Elbow behind torso. Cable never touches forearm.","<strong>Calves:</strong> Knees LOCKED. 2-3s stretch. Rotate toes each day.","<strong>OH triceps:</strong> BAR attachment. Elbows FORWARD on eccentric."]},
+{t:"🔄 Rotation (between mesocycles)",i:["<strong>Chest:</strong> Low Incline DB ↔ Smith ↔ Machine ↔ Incline Fly","<strong>Side delts:</strong> BTB Cable ↔ Incline DB Lateral ↔ Egyptian ↔ Cross-Body","<strong>Biceps:</strong> Bayesian ↔ Preacher ↔ Incline DB","<strong>Back:</strong> Chest-Supported ↔ Cable V-bar ↔ Machine Row"]}
 ];
 
-const SVG_CHK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>';
-const SVG_CHEVRON='<svg class="ex-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>';
-const SVG_CHEVRON_SM='<svg class="ref-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>';
+// Storage
+const dk=()=>new Date().toISOString().split('T')[0];
+function getW(di,ei){try{return JSON.parse(localStorage.getItem(`g_${di}_${ei}`))||[]}catch(e){return[]}}
+function saveW(di,ei,arr){localStorage.setItem(`g_${di}_${ei}`,JSON.stringify(arr))}
+function lastW(di,ei){const a=getW(di,ei);const today=dk();for(let i=a.length-1;i>=0;i--)if(a[i].d!==today)return a[i];return null}
+function todayW(di,ei){const a=getW(di,ei);const today=dk();for(let i=a.length-1;i>=0;i--)if(a[i].d===today)return a[i];return null}
+function logW(di,ei,val){
+  const a=getW(di,ei);const today=dk();
+  const idx=a.findIndex(x=>x.d===today);
+  if(idx>=0)a[idx].w=val;else a.push({d:today,w:val});
+  saveW(di,ei,a);
+}
+function fmtD(d){const dt=new Date(d+'T12:00:00');const ds=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];const ms=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return ds[dt.getDay()]+', '+ms[dt.getMonth()]+' '+dt.getDate()}
 
-// ===== STORAGE =====
-function getLog(dayIdx, exIdx){
-  try{return JSON.parse(localStorage.getItem(`gym_${dayIdx}_${exIdx}`))||{}}catch(e){return{}}
-}
-function saveLog(dayIdx, exIdx, data){
-  localStorage.setItem(`gym_${dayIdx}_${exIdx}`, JSON.stringify(data));
-}
-function getDateKey(){return new Date().toISOString().split('T')[0]}
-function getPrevSession(dayIdx, exIdx){
-  const log=getLog(dayIdx,exIdx);
-  const today=getDateKey();
-  const dates=Object.keys(log).filter(d=>d!==today).sort().reverse();
-  return dates.length?{date:dates[0],sets:log[dates[0]]}:null;
-}
-function getTodayLog(dayIdx, exIdx){
-  const log=getLog(dayIdx,exIdx);
-  return log[getDateKey()]||null;
-}
-function saveTodaySet(dayIdx, exIdx, setIdx, weight, reps){
-  const log=getLog(dayIdx,exIdx);
-  const today=getDateKey();
-  if(!log[today])log[today]=[];
-  while(log[today].length<=setIdx)log[today].push({w:'',r:''});
-  log[today][setIdx]={w:weight,r:reps};
-  saveLog(dayIdx,exIdx,log);
-}
-function toggleSetDone(dayIdx, exIdx, setIdx){
-  const log=getLog(dayIdx,exIdx);
-  const today=getDateKey();
-  if(!log[today])log[today]=[];
-  while(log[today].length<=setIdx)log[today].push({w:'',r:''});
-  log[today][setIdx].done=!log[today][setIdx].done;
-  saveLog(dayIdx,exIdx,log);
-}
-
-// ===== RENDER =====
+// Render
 const today=new Date().getDay();
-const dayMap={2:0,3:1,5:2,6:3,0:4};
+const dm={2:0,3:1,5:2,6:3,0:4};
 
-// Tabs
-document.getElementById('tabs').innerHTML=DAYS.map((d,i)=>{
-  const isToday=d.dow===today;
-  return `<button class="tab${isToday?' today':''}" onclick="showDay(${i})" id="tab-${i}">${d.short}</button>`;
-}).join('')+`<button class="tab" onclick="showDay(5)" id="tab-5">📋 Ref</button>`;
+document.getElementById('tabs').innerHTML=D.map((d,i)=>`<button class="tab${d.dw===today?' today':''}" onclick="sd(${i})" id="t${i}">${d.sh}</button>`).join('')+`<button class="tab" onclick="sd(5)" id="t5">📋</button>`;
 
-// Build content
 let html='';
-DAYS.forEach((day,di)=>{
-  let mainN=0,addonN=0,inAddon=false;
-  let exHTML='';
-  day.ex.forEach((ex,ei)=>{
-    if(ex.n==='__SEP__'){inAddon=true;addonN=0;exHTML+=`<div class="addon-sep">Add-ons · 30-45s rest</div>`;return}
-    if(!inAddon)mainN++;else addonN++;
-    const num=inAddon?`A${addonN}`:mainN;
-    const cls=ex.pri?'pri':(ex.addon?'addon':'');
-    const techChip=ex.tech?`<div class="chip tech">${ex.tech}</div>`:'';
-    const subHTML=ex.sub&&ex.sub!=='—'?`<div class="ex-sub">↳ Sub: ${ex.sub}</div>`:'';
-
-    // Previous session data
-    const prev=getPrevSession(di,ei);
-    const todayData=getTodayLog(di,ei);
-
-    let logHTML=`<div class="log-section"><div class="log-title">LOG TODAY${prev?`<span class="log-prev">Last: ${formatDate(prev.date)}</span>`:''}</div><div class="log-grid">`;
-    for(let s=0;s<ex.s;s++){
-      const prevSet=prev&&prev.sets[s]?prev.sets[s]:{w:'',r:''};
-      const todaySet=todayData&&todayData[s]?todayData[s]:{w:'',r:'',done:false};
-      const prevW=prevSet.w?`<div class="prev-val">${prevSet.w} kg</div>`:'<div class="prev-val">—</div>';
-      const prevR=prevSet.r?`<div class="prev-val">${prevSet.r} reps</div>`:'<div class="prev-val">—</div>';
-      logHTML+=`<div class="log-row">
-        <div class="set-label">S${s+1}</div>
-        <div><input class="log-input" type="number" inputmode="decimal" placeholder="kg" value="${todaySet.w}" onchange="onLog(${di},${ei},${s},'w',this.value)">${prevW}</div>
-        <div><input class="log-input" type="number" inputmode="numeric" placeholder="reps" value="${todaySet.r}" onchange="onLog(${di},${ei},${s},'r',this.value)">${prevR}</div>
-        <div class="log-check${todaySet.done?' done':''}" onclick="onCheck(${di},${ei},${s},this)">${SVG_CHK}</div>
-      </div>`;
+D.forEach((day,di)=>{
+  let mn=0,an=0,ia=false,exHtml='';
+  day.ex.forEach((e,ei)=>{
+    if(e.n==='__S__'){ia=true;an=0;exHtml+=`<div class="addon-sep">Add-ons · 30-45s rest</div>`;return}
+    if(!ia)mn++;else an++;
+    const num=ia?`A${an}`:mn;
+    const cls=e.p?'pri':(e.a?'addon':'');
+    const tc=e.tech?`<div class="chip tech">${e.tech}</div>`:'';
+    const sub=e.su&&e.su!=='—'?`<div class="ex-sub">↳ Sub: ${e.su}</div>`:'';
+    
+    // Weight display
+    const prev=lastW(di,ei);
+    const tod=todayW(di,ei);
+    let prevHtml='<span style="color:var(--t3);font-size:11px">No previous data</span>';
+    if(prev){
+      let trend='';
+      if(tod&&tod.w&&prev.w){
+        const diff=parseFloat(tod.w)-parseFloat(prev.w);
+        if(diff>0)trend=`<span class="wt-trend up">↑ +${diff}</span>`;
+        else if(diff<0)trend=`<span class="wt-trend down">↓ ${diff}</span>`;
+        else trend=`<span class="wt-trend same">= same</span>`;
+      }
+      prevHtml=`<strong>${prev.w} kg</strong>${trend}<br><span class="date">${fmtD(prev.d)}</span>`;
     }
-    logHTML+='</div></div>';
 
-    exHTML+=`<div class="ex ${cls}" id="ex-${di}-${ei}">
-      <div class="ex-main" onclick="toggleEx(this.parentElement)">
+    // History for detail view
+    const hist=getW(di,ei).slice(-5).reverse();
+    let histHtml='';
+    if(hist.length>0){
+      histHtml=`<div class="ex-hist"><div class="ex-hist-title">Recent History</div>${hist.map(h=>`<div class="hist-row"><span class="hist-date">${fmtD(h.d)}</span><span class="hist-val">${h.w} kg</span></div>`).join('')}</div>`;
+    }
+
+    exHtml+=`<div class="ex ${cls}" id="e${di}_${ei}">
+      <div class="ex-main" onclick="te(this.parentElement)">
         <div class="ex-top">
           <div class="ex-num">${num}</div>
-          <div class="ex-name">${ex.n}</div>
-          ${SVG_CHEVRON}
+          <div class="ex-name">${e.n}</div>
+          ${CHV}
         </div>
         <div class="chips">
-          <div class="chip"><span class="l">Sets</span> ${ex.s}</div>
-          <div class="chip"><span class="l">Reps</span> ${ex.r}</div>
-          <div class="chip"><span class="l">RPE</span> ${ex.rpe}</div>
-          <div class="chip"><span class="l">Rest</span> ${ex.rest}</div>
-          ${techChip}
+          <div class="chip"><span class="l">Sets</span> ${e.s}</div>
+          <div class="chip"><span class="l">Reps</span> ${e.r}</div>
+          <div class="chip"><span class="l">RPE</span> ${e.rpe}</div>
+          <div class="chip"><span class="l">Rest</span> ${e.rest}</div>
+          ${tc}
+        </div>
+        <div class="ex-wt" onclick="event.stopPropagation()">
+          <div class="ex-wt-prev" id="pv${di}_${ei}">${prevHtml}</div>
+          <div class="wt-input-wrap">
+            <input class="wt-input" id="wi${di}_${ei}" type="number" inputmode="decimal" placeholder="kg" value="${tod?tod.w:''}" onfocus="event.stopPropagation()">
+            <button class="wt-save${tod?' saved':''}" id="ws${di}_${ei}" onclick="event.stopPropagation();sv(${di},${ei})">${SAVE_ICON}</button>
+          </div>
         </div>
       </div>
-      <div class="ex-detail">
-        <div class="ex-notes">${ex.notes}</div>
-        ${subHTML}
-        ${logHTML}
+      <div class="ex-det">
+        <div class="ex-notes">${e.nt}</div>
+        ${sub}
+        ${histHtml}
       </div>
     </div>`;
   });
-  html+=`<div class="dv" id="dv-${di}"><div class="day-lbl">${day.label}</div>${exHTML}</div>`;
+  html+=`<div class="dv" id="d${di}"><div class="dlb">${day.lb}</div>${exHtml}</div>`;
 });
 
-// Reference
-let refHTML='<div class="dv" id="dv-5">';
-REFS.forEach(r=>{
-  refHTML+=`<div class="ref" onclick="this.classList.toggle('open')">
-    <div class="ref-h"><h3>${r.t}</h3>${SVG_CHEVRON_SM}</div>
-    <div class="ref-b">${r.items.map(i=>`<div class="ref-i">${i}</div>`).join('')}</div>
-  </div>`;
-});
-refHTML+='</div>';
-html+=refHTML;
+// Ref
+let rh='<div class="dv" id="d5">';
+REFS.forEach(r=>{rh+=`<div class="ref" onclick="this.classList.toggle('open')"><div class="ref-h"><h3>${r.t}</h3>${CHV2}</div><div class="ref-b">${r.i.map(x=>`<div class="ref-i">${x}</div>`).join('')}</div></div>`;});
+rh+='</div>';
+html+=rh;
 
 document.getElementById('cnt').innerHTML=html;
 
-// ===== FUNCTIONS =====
-function showDay(i){
-  document.querySelectorAll('.dv').forEach(d=>d.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('dv-'+i).classList.add('active');
-  document.getElementById('tab-'+i).classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
+function sd(i){document.querySelectorAll('.dv').forEach(d=>d.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('d'+i).classList.add('active');document.getElementById('t'+i).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+function te(el){el.classList.toggle('open')}
+function sv(di,ei){
+  const inp=document.getElementById(`wi${di}_${ei}`);
+  const val=inp.value.trim();
+  if(!val)return;
+  logW(di,ei,val);
+  const btn=document.getElementById(`ws${di}_${ei}`);
+  btn.classList.add('saved');
+  // Update prev display
+  const prev=lastW(di,ei);
+  const pv=document.getElementById(`pv${di}_${ei}`);
+  if(prev){
+    let trend='';
+    const diff=parseFloat(val)-parseFloat(prev.w);
+    if(diff>0)trend=`<span class="wt-trend up">↑ +${diff}</span>`;
+    else if(diff<0)trend=`<span class="wt-trend down">↓ ${diff}</span>`;
+    else trend=`<span class="wt-trend same">= same</span>`;
+    pv.innerHTML=`<strong>${prev.w} kg</strong>${trend}<br><span class="date">${fmtD(prev.d)}</span>`;
+  }
+  toast('✓ Saved');
 }
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1400)}
 
-function toggleEx(el){el.classList.toggle('open')}
-
-function onLog(di,ei,si,type,val){
-  const todayData=getTodayLog(di,ei)||[];
-  while(todayData.length<=si)todayData.push({w:'',r:''});
-  todayData[si][type]=val;
-  const log=getLog(di,ei);
-  log[getDateKey()]=todayData;
-  saveLog(di,ei,log);
-}
-
-function onCheck(di,ei,si,el){
-  el.classList.toggle('done');
-  toggleSetDone(di,ei,si);
-  if(el.classList.contains('done'))toast('Set '+( si+1)+' ✓');
-}
-
-function toast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),1500);
-}
-
-function formatDate(d){
-  const dt=new Date(d+'T00:00:00');
-  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  return days[dt.getDay()]+' '+months[dt.getMonth()]+' '+dt.getDate();
-}
-
-// Auto-open today
-showDay(dayMap[today]!==undefined?dayMap[today]:0);
+sd(dm[today]!==undefined?dm[today]:0);
 </script>
 </body>
 </html>
