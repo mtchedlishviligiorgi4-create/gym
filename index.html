@@ -67,7 +67,14 @@ body{
 
 /* ── slot (superset bracket or single) ──────────────── */
 .slot{margin-bottom:10px;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);background:var(--w)}
-.slot.ss{border:1.5px solid var(--pu2)}
+.slot.ss,.slot.myo{border:1.5px solid var(--pu2)}
+.srow.mini .fld input{background:var(--pu2)}
+.srow.mini .sn{color:var(--pu);font-size:14px}
+.swap{margin-top:9px;display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.swap-l{font-size:10px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;width:100%;margin-bottom:1px}
+.sw{font-size:11.5px;font-weight:600;font-family:inherit;padding:6px 10px;border-radius:8px;border:1px solid var(--b);
+ background:var(--w);color:var(--t2);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sw.on{background:var(--bl);border-color:var(--bl);color:#fff}
 .ss-hd{display:flex;align-items:center;gap:7px;padding:7px 12px;background:var(--pu2);font-size:10.5px;font-weight:800;color:var(--pu);text-transform:uppercase;letter-spacing:.7px}
 .ss-hd .rt{margin-left:auto;font-weight:600;letter-spacing:0;text-transform:none;font-size:11px;opacity:.85}
 
@@ -239,149 +246,152 @@ const CHEV='<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentCol
 const TICK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>';
 
 const PROG=[
-{sh:"Tue",dw:2,lb:"Full Body #1",slots:[
- {ss:1,rest:75,ex:[
-  {id:"incline-db-press",n:"Low Incline DB Press (30°)",s:3,r:"8–12",tg:"chest · upper",
-   nt:"15–30° bench. Scapulae retracted, slight arch. 2–3 s eccentric, deep stretch at the bottom.",su:"Smith Incline (30°)"},
-  {id:"chest-supported-row",n:"Chest-Supported Row (wide)",s:4,r:"8–12",tg:"back · rows",
-   nt:"Elbows ~45°. Squeeze 1 s at the top, full protraction at the bottom.",su:"Machine Row (wide)"}]},
- {ss:1,rest:60,ex:[
-  {id:"leg-extension",n:"Leg Extension",s:4,r:"8–12",tg:"quads · heaviest",
-   nt:"Your progressive quad lift — this is where you chase weight. Slow 2 s negative.",su:"Single-Leg Extension"},
-  {id:"seated-leg-curl",n:"Seated Leg Curl",s:3,r:"10–15",tg:"hamstrings",
-   nt:"Third hamstring exposure — the old programme left them below the 12-set floor. Seated, lean forward.",su:"Single-Leg Seated Curl"},
-  {id:"standing-calf",n:"Standing Calf Raise",s:3,r:"10–15",tg:"calves",
-   nt:"Knees FULLY LOCKED. 2–3 s deep stretch. Toes straight today.",su:"Leg Press Calf Raise"}]},
- {ss:1,rest:50,ex:[
-  {id:"btb-cable-lateral",n:"BTB Cable Lateral Raise",s:4,r:"12–15",tg:"side delts",
-   nt:"Neutral grip, not 'pour the water'. Above parallel. 2–3 s eccentric.",su:"Incline DB Lateral Raise"},
-  {id:"bayesian-curl",n:"Bayesian Cable Curl",s:3,r:"8–12",tg:"biceps · long head",
-   nt:"Lowest pulley, 10–15° waiter's bow, elbow behind the torso. Cable never touches the forearm.",su:"Incline DB Curl"}]},
- {ss:1,rest:40,ex:[
-  {id:"neck-curl",n:"Plate Neck Curl (face up)",s:3,r:"10–15",tg:"neck",
-   nt:"Towel + plate. Week 1: 2 sets at 5 lb only. Stretch the neck 2 min first.",su:"Harness Curl"},
-  {id:"cable-crunch",n:"Cable Rope Crunch",s:3,r:"10–15",tg:"abs",
-   nt:"Round the lower back. 2 s eccentric. Past 30 reps, add weight.",su:"Machine Crunch"}]},
+{sh:"Tue",dw:2,lb:"Heavy upper + quads",slots:[
+ {rest:120,ex:[{id:"machine-incline-press",n:"Machine Incline Press",s:4,r:"8–12",tg:"chest · upper",
+  nt:"One of your three press angles. Retract the shoulder blades, controlled 2–3 s negative, deep stretch at the bottom.",
+  su:["Incline DB Press (30°)","Pec Deck, high setting"]}]},
+ {rest:120,ex:[{id:"t-bar-row",n:"T-Bar Row (machine)",s:4,r:"8–12",tg:"back · thickness",
+  nt:"Chest on the pad so the lower back stays out of it. Elbows ~45°, squeeze 1 s, full stretch at the bottom.",
+  su:["Chest-Supported Row (wide)","Machine Row"]}]},
+ {rest:90,ex:[{id:"leg-extension",n:"Leg Extension",s:4,r:"8–12",tg:"quads · heaviest",
+  nt:"Your progressive quad lift — chase weight here. Seat back, slow 2 s negative.",
+  su:["Leg Press (moderate feet)","Single-Leg Extension"]}]},
+ {myo:1,rest:15,ex:[{id:"lateral-raise-machine",n:"Lateral Raise Machine",s:4,r:"12–15",tg:"side delts",myo:1,
+  nt:"MYO-REPS. One hard set of 12–15, then 15 s rest and 5 more reps, three times. Never leave the machine — this is why it is here.",
+  su:["BTB Cable Lateral Raise","DB Lateral Raise"]}]},
+ {rest:75,ex:[{id:"biceps-machine",n:"Biceps Machine",s:3,r:"10–15",tg:"biceps",
+  nt:"Pad under the upper arms, elbows pinned. Full stretch at the bottom, squeeze at the top.",
+  su:["Incline DB Curl","Bayesian Cable Curl"]}]},
+ {myo:1,rest:15,ex:[{id:"standing-calf",n:"Standing Calf Raise",s:4,r:"12–15",tg:"calves · toes straight",myo:1,
+  nt:"MYO-REPS. Knees FULLY LOCKED, 2–3 s deep stretch at the bottom. Standing beats seated for the gastrocnemius and matches it for soleus.",
+  su:["Leg Press Calf Raise","Smith Calf Raise"]}]},
+ {rest:60,ex:[{id:"crunch",n:"Weighted Crunch",s:3,r:"10–15",tg:"abs · upper",
+  nt:"Plate on the chest. Round the lower back, 2 s eccentric. Crunches out-activate leg raises by ~36% and bias the upper abs — Friday's leg raise covers the lower half.",
+  su:["Machine Crunch","Decline Crunch"]}]},
+ {rest:45,ex:[{id:"neck-curl",n:"Plate Neck Curl (face up)",s:3,r:"10–15",tg:"neck",
+  nt:"Towel and a plate — no machine to queue for, which is why it survived the rebuild. Week 1: 2 sets at 5 lb only.",
+  su:["Harness Neck Curl","Skip if pushed for time"]}]},
 ]},
-{sh:"Wed",dw:3,lb:"Full Body #2 · no dual-cable",slots:[
- {ss:1,rest:75,ex:[
-  {id:"machine-chest-press",n:"Machine Chest Press — flat",s:3,r:"8–12",tg:"chest · mid",
-   nt:"NEW. Flat, not incline — this is the sternocostal work the program was missing.",su:"Flat DB Press"},
-  {id:"lat-pulldown-wide",n:"Lat Pulldown — wide, overhand",s:4,r:"10–13",tg:"lats · width",
-   nt:"NEW grip. Wide overhand, pull to the upper chest, full stretch at the top.",su:"Machine Pulldown (wide)"}]},
- {ss:1,rest:60,ex:[
-  {id:"seated-leg-curl",n:"Seated Leg Curl",s:4,r:"10–15",tg:"hamstrings",
-   nt:"Seated, not lying — ~50% more growth. Lean forward. 2 s eccentric.",su:"Single-Leg Seated Curl"},
-  {id:"leg-press",n:"Leg Press — light",s:3,r:"12–15",tg:"quads · secondary",
-   nt:"Deliberately submaximal. Moderate-high feet, controlled negative.",su:"Machine Squat"}]},
- {ss:1,rest:50,ex:[
-  {id:"db-lateral",n:"DB Lateral Raise",s:3,r:"12–15",tg:"side delts",
-   nt:"Neutral grip, above parallel, 2–3 s eccentric.",su:"Machine Lateral Raise"},
-  {id:"reverse-pec-deck",n:"Reverse Pec Deck",s:4,r:"12–15",tg:"rear delts",
-   nt:"Light. 1–2 s peak hold.",su:"Cable Reverse Fly"}]},
- {ss:1,rest:60,ex:[
-  {id:"assisted-dips",n:"Assisted Dips",s:3,r:"8–12",tg:"chest · lower + triceps",
-   nt:"Moved off Saturday — it used to stack 6 chest sets onto the day after your heaviest press. Slow 2–3 s negative, at least 90° at the elbow.",su:"Cable Pushdown (bar)"},
-  {id:"hip-abd-add",n:"Hip Abd ⇄ Hip Add",s:3,r:"15–25",tg:"glute med · adductors",
-   nt:"Abduction then adduction. Lean forward 30–45°, glutes off the seat.",su:"—"}]},
- {rest:90,ex:[
-  {id:"oh-cable-triceps",n:"OH Cable Triceps Ext (bar)",s:3,r:"10–15",tg:"triceps · long head",
-   nt:"BAR attachment. Elbows FORWARD on the eccentric. ~1.5× the long-head growth of pushdowns.",su:"OH EZ Bar Extension"}]},
+{sh:"Wed",dw:3,lb:"Chest mid + lat width + hams",slots:[
+ {rest:120,ex:[{id:"machine-chest-press",n:"Machine Chest Press — flat",s:4,r:"8–12",tg:"chest · mid",
+  nt:"The flat angle. This is the sternocostal work the old programme had almost none of.",
+  su:["Flat DB Press","Pec Deck"]}]},
+ {rest:120,ex:[{id:"lat-pulldown-wide",n:"Lat Pulldown — wide, overhand",s:4,r:"10–13",tg:"lats · width",
+  nt:"Wide overhand. Pull to the upper chest, full stretch at the top. This is the width movement — nothing else in the week trains the lats abducted.",
+  su:["Machine Pulldown (wide)","Assisted Pull-Up"]}]},
+ {rest:90,ex:[{id:"seated-leg-curl",n:"Seated Leg Curl",s:4,r:"10–15",tg:"hamstrings",
+  nt:"Seated, not lying — about 50% more growth. Lean forward slightly, 2 s eccentric.",
+  su:["Single-Leg Seated Curl","Lying Leg Curl"]}]},
+ {myo:1,rest:15,ex:[{id:"reverse-pec-deck",n:"Reverse Pec Deck",s:4,r:"12–15",tg:"rear delts",myo:1,
+  nt:"MYO-REPS. Light, 1–2 s squeeze at the peak. One machine, one weight, no walking.",
+  su:["Cable Face Pull","Machine Reverse Fly"]}]},
+ {rest:75,ex:[{id:"cable-pushdown",n:"Cable Pushdown (rope)",s:3,r:"10–15",tg:"triceps · lateral",
+  nt:"Spread the rope at the bottom. Elbows pinned to the ribs.",
+  su:["Machine Triceps Extension","Bar Pushdown"]}]},
+ {rest:60,ex:[{id:"hip-abd-add",n:"Hip Abd ⇄ Hip Add",s:3,r:"15–25",tg:"glute med · adductors",
+  nt:"The one true pair in the programme — same machine, you just flip the pads between sets. Lean forward 30–45°.",
+  su:["Cable Abduction","Banded Lateral Walk"]}]},
+ {rest:75,ex:[{id:"db-lateral",n:"DB Lateral Raise",s:4,r:"12–15",tg:"side delts",
+  nt:"Dumbbells, so it works even when every machine is taken. Neutral grip, above parallel, 2–3 s eccentric.",
+  su:["Lateral Raise Machine","Cable Lateral Raise"]}]},
 ]},
-{sh:"Fri",dw:5,lb:"Full Body #3 · heaviest",slots:[
- {rest:150,ex:[
-  {id:"smith-incline",n:"Smith Incline Press (30°)",s:3,r:"6–10",tg:"chest · upper",
-   nt:"Heaviest press of the week. Straight sets — don't superset this one. Add weight weekly.",su:"Machine Incline Press"}]},
- {rest:150,ex:[
-  {id:"seated-cable-row",n:"Seated Cable Row (V → waist)",s:4,r:"6–10",tg:"back · heavy",
-   nt:"Heaviest row of the week, and now in a real strength rep range. Pull to the waist.",su:"Machine Row"}]},
- {ss:1,rest:60,ex:[
-  {id:"leg-extension",n:"Leg Extension",s:3,r:"10–13",tg:"quads",
-   nt:"Second quad exposure. Slightly lighter than Tuesday.",su:"Single-Leg Extension"},
-  {id:"standing-calf",n:"Standing Calf Raise",s:3,r:"10–15",tg:"calves",
-   nt:"Knees locked, 2–3 s stretch. TOES OUT today.",su:"Donkey Calf Raise"}]},
- {ss:1,rest:50,ex:[
-  {id:"db-lateral",n:"DB Lateral Raise",s:3,r:"10–15",tg:"side delts",
-   nt:"Heavier and lower-rep than the cable version.",su:"Machine Lateral Raise"},
-  {id:"hammer-curl",n:"Hammer Curl",s:2,r:"8–12",tg:"brachialis",
-   nt:"Straight, not cross-body. The only forearm-ish work left in the program.",su:"Neutral Preacher Curl"}]},
- {ss:1,rest:45,ex:[
-  {id:"back-extension",n:"45° Back Extension",s:3,r:"12–20",tg:"erectors · glutes",
-   nt:"Pad high. Round at the bottom, neutral at the top — never hyperextend.",su:"Reverse Hyperextension"},
-  {id:"hanging-leg-raise",n:"Hanging Leg Raise",s:2,r:"10–20",tg:"abs",
-   nt:"Posterior pelvic tilt at the top. No swinging.",su:"Reverse Crunch"},
-  {id:"neck-ext",n:"Plate Neck Ext (face down)",s:2,r:"6–8",tg:"neck · strength",
-   nt:"Heavier plate, lower reps. Extend to neutral ONLY.",su:"Harness Extension"}]},
+{sh:"Fri",dw:5,lb:"Heaviest",slots:[
+ {rest:120,ex:[{id:"machine-decline-press",n:"Machine Decline Press",s:4,r:"6–10",tg:"chest · lower",
+  nt:"Your third press angle and the heaviest press of the week. Decline loads the lower sternal fibres nothing else here reaches.",
+  su:["Assisted Dips","Machine Chest Press — flat"]}]},
+ {rest:120,ex:[{id:"seated-cable-row",n:"Seated Cable Row (V → waist)",s:4,r:"6–10",tg:"back · heavy",
+  nt:"Heaviest row of the week, in a real strength range. Pull to the waist, lean forward at the stretch.",
+  su:["T-Bar Row","Machine Row"]}]},
+ {rest:120,ex:[{id:"leg-press",n:"Leg Press",s:4,r:"10–13",tg:"quads",
+  nt:"Moderate-high feet, controlled negative, no locking out. Second quad exposure.",
+  su:["Leg Extension","Machine Squat"]}]},
+ {myo:1,rest:15,ex:[{id:"lateral-raise-machine",n:"Lateral Raise Machine",s:4,r:"12–15",tg:"side delts",myo:1,
+  nt:"MYO-REPS. Second side-delt session — your single highest-leverage muscle for how the upper body reads.",
+  su:["BTB Cable Lateral Raise","DB Lateral Raise"]}]},
+ {rest:75,ex:[{id:"db-oh-triceps",n:"Seated DB Overhead Ext",s:3,r:"10–15",tg:"triceps · long head",
+  nt:"One dumbbell, both hands, seated on any bench — the least contested setup in the gym. The long head crosses the shoulder, so overhead is the ONLY way to load it stretched: ~1.5× the growth of pushdowns. This is the one overhead slot in the week.",
+  su:["OH Cable Extension (bar)","Cross-Body Cable Extension"]}]},
+ {myo:1,rest:15,ex:[{id:"standing-calf",n:"Standing Calf Raise",s:4,r:"12–15",tg:"calves · toes out",myo:1,
+  nt:"MYO-REPS. Knees locked, deep stretch. Toes out today.",
+  su:["Leg Press Calf Raise","Smith Calf Raise"]}]},
+ {rest:60,ex:[{id:"hanging-leg-raise",n:"Hanging Leg Raise",s:3,r:"10–20",tg:"abs · lower",
+  nt:"Posterior pelvic tilt at the top, no swinging. Leg raises bias the lower abs where crunches bias the upper — that is why the week has one of each.",
+  su:["Captain's Chair Raise","Reverse Crunch"]}]},
+ {rest:45,ex:[{id:"neck-ext",n:"Plate Neck Ext (face down)",s:2,r:"6–8",tg:"neck · strength",
+  nt:"Heavier plate, lower reps. Extend to neutral ONLY, never past.",
+  su:["Harness Neck Extension","Skip if pushed for time"]}]},
 ]},
-{sh:"Sat",dw:6,lb:"Full Body #4",slots:[
- {ss:1,rest:75,ex:[
-  {id:"pec-deck",n:"Pec Deck — mid height",s:3,r:"10–15",tg:"chest · mid",
-   nt:"NEW. Mid-height, not low-to-high — the old cable fly was another upper-chest movement.",su:"Mid Cable Fly"},
-  {id:"neutral-machine-pd",n:"Neutral Machine PD (close)",s:4,r:"10–13",tg:"lats · lower",
-   nt:"Elbows down toward the hips. Full stretch at the top.",su:"Single-Arm Cable PD"}]},
- {ss:1,rest:60,ex:[
-  {id:"seated-leg-curl",n:"Seated Leg Curl",s:4,r:"10–15",tg:"hamstrings",
-   nt:"Second hamstring session. Straight sets, recovery from Wednesday.",su:"Single-Leg Seated Curl"},
-  {id:"standing-calf",n:"Standing Calf Raise",s:3,r:"10–15",tg:"calves",
-   nt:"Knees locked. TOES IN today. 20 s loaded stretch between sets.",su:"Leg Press Calf Raise"}]},
- {ss:1,rest:55,ex:[
-  {id:"btb-cable-lateral",n:"BTB Cable Lateral Raise",s:4,r:"12–15",tg:"side delts",
-   nt:"Neutral grip, above parallel.",su:"Cable Y-Raise"},
-  {id:"oh-cable-triceps",n:"OH Cable Triceps Ext (bar)",s:3,r:"10–15",tg:"triceps · long head",
-   nt:"BAR. Elbows forward on the eccentric.",su:"OH EZ Bar Extension"},
-  {id:"bayesian-curl",n:"Bayesian Cable Curl",s:3,r:"8–12",tg:"biceps · long head",
-   nt:"Second biceps session. This replaced the reverse curls.",su:"Incline DB Curl"}]},
- {ss:1,rest:50,ex:[
-  {id:"face-pull",n:"Cable Face Pull (rope)",s:3,r:"12–20",tg:"rear delts · external rotation",
-   nt:"Second rear-delt exercise — the pec deck alone was the only one in the week. Rope at eye height, pull to the forehead, elbows high, rotate at the end.",su:"Reverse Pec Deck"},
-  {id:"back-extension-light",n:"45° Back Ext (light)",s:2,r:"15–20",tg:"erectors",
-   nt:"Bodyweight or a light plate. Second lower-back exposure.",su:"Reverse Hyperextension"}]},
+{sh:"Sat",dw:6,lb:"Volume upper + hams",slots:[
+ {rest:90,ex:[{id:"pec-deck",n:"Pec Deck",s:4,r:"10–15",tg:"chest · mid",
+  nt:"Mid height, not low-to-high. Deep stretch with the elbows back, 1 s squeeze.",
+  su:["Machine Chest Press — flat","Mid Cable Fly"]}]},
+ {rest:90,ex:[{id:"neutral-machine-pd",n:"Neutral Machine PD (close)",s:4,r:"10–13",tg:"lats · lower",
+  nt:"Close neutral grip. Elbows down toward the hips, full stretch at the top. Different grip from Wednesday on purpose.",
+  su:["Close-Grip Cable Pulldown","Machine Pullover"]}]},
+ {rest:90,ex:[{id:"seated-leg-curl",n:"Seated Leg Curl",s:4,r:"10–15",tg:"hamstrings",
+  nt:"Second hamstring session. Lean forward, 2 s eccentric.",
+  su:["Single-Leg Seated Curl","Lying Leg Curl"]}]},
+ {rest:75,ex:[{id:"incline-db-curl",n:"Incline DB Curl",s:3,r:"10–15",tg:"biceps · long head",
+  nt:"Bench at 45–60°, arms hanging behind the torso. Loads the long head stretched — the reason it beats a standing curl.",
+  su:["Bayesian Cable Curl","Biceps Machine"]}]},
+ {rest:75,ex:[{id:"cable-pushdown",n:"Cable Pushdown (rope)",s:3,r:"10–15",tg:"triceps · lateral",
+  nt:"Second pushdown session. Spread the rope at the bottom.",
+  su:["Machine Triceps Extension","Bar Pushdown"]}]},
+ {myo:1,rest:15,ex:[{id:"face-pull",n:"Cable Face Pull (rope)",s:4,r:"12–20",tg:"rear delts",myo:1,
+  nt:"MYO-REPS. Rope at eye height, pull to the forehead, elbows high. Second rear-delt exercise — the pec deck alone was the only one in the week.",
+  su:["Reverse Pec Deck","Band Pull-Apart"]}]},
+ {myo:1,rest:15,ex:[{id:"lateral-raise-machine",n:"Lateral Raise Machine",s:4,r:"12–15",tg:"side delts",myo:1,
+  nt:"MYO-REPS. Third side-delt session. Saturday had none — and side delts are the one muscle that actually changes how wide you look.",
+  su:["BTB Cable Lateral Raise","DB Lateral Raise"]}]},
+ {rest:75,ex:[{id:"back-extension",n:"45° Back Extension",s:3,r:"12–20",tg:"erectors · glutes",
+  nt:"Pad high. Round at the bottom, neutral at the top — never hyperextend.",
+  su:["Reverse Hyperextension","Seated Back Extension"]}]},
 ]},
-{sh:"Sun",dw:0,lb:"Full Body #5 · lighter",slots:[
- {ss:1,rest:75,ex:[
-  {id:"machine-incline-press",n:"Machine Incline Press",s:3,r:"10–15",tg:"chest · upper",
-   nt:"Lightest pressing day. Squeeze and stretch over load.",su:"Incline DB Fly (30°)"},
-  {id:"neutral-machine-pd",n:"Neutral Machine PD",s:3,r:"12–15",tg:"lats",
-   nt:"Third back exposure. Elbows to the hips.",su:"Machine Pulldown"}]},
- {ss:1,rest:60,ex:[
-  {id:"leg-extension",n:"Leg Extension",s:4,r:"10–15",tg:"quads",
-   nt:"Third quad exposure. Higher reps than Tuesday.",su:"Single-Leg Extension"},
-  {id:"hip-abd-add",n:"Hip Abd ⇄ Hip Add",s:3,r:"15–25",tg:"glute med · adductors",
-   nt:"Lean forward 30–45°. Glutes off the seat.",su:"—"}]},
- {ss:1,rest:50,ex:[
-  {id:"btb-cable-lateral",n:"BTB Cable Lateral Raise",s:4,r:"15–20",tg:"side delts",
-   nt:"Highest-rep delt work of the week — but no longer 20–25.",su:"Cable Y-Raise"},
-  {id:"reverse-pec-deck",n:"Reverse Pec Deck",s:4,r:"15–20",tg:"rear delts",
-   nt:"Light, constant tension, 1–2 s peak squeeze.",su:"Cable Reverse Fly"}]},
- {ss:1,rest:50,ex:[
-  {id:"incline-db-curl",n:"Incline DB Curl",s:3,r:"10–15",tg:"biceps · long head",
-   nt:"Third biceps session. Bench at 45–60°, arms hanging behind the torso.",su:"Bayesian Cable Curl"},
-  {id:"cable-pushdown",n:"Cable Pushdown (rope)",s:3,r:"10–15",tg:"triceps · lateral",
-   nt:"Covers what the overhead extension misses. Spread the rope at the bottom.",su:"Assisted Dip"}]},
- {rest:45,ex:[
-  {id:"standing-calf",n:"Standing Calf Raise",s:3,r:"15–20",tg:"calves",
-   nt:"Fourth calf session. Knees locked, toes straight.",su:"Leg Press Calf Raise"}]},
+{sh:"Sun",dw:0,lb:"Lighter",slots:[
+ {rest:90,ex:[{id:"machine-incline-press",n:"Machine Incline Press",s:3,r:"10–15",tg:"chest · upper",
+  nt:"Lightest pressing day. Squeeze and stretch over load.",
+  su:["Incline DB Press (30°)","Pec Deck, high setting"]}]},
+ {rest:90,ex:[{id:"chest-supported-row",n:"Chest-Supported Row (wide)",s:4,r:"10–13",tg:"back · upper",
+  nt:"Wide elbows for upper back. Chest stays on the pad throughout.",
+  su:["T-Bar Row","Machine Row (wide)"]}]},
+ {rest:90,ex:[{id:"leg-extension",n:"Leg Extension",s:4,r:"10–15",tg:"quads",
+  nt:"Third quad exposure, higher reps than Tuesday.",
+  su:["Leg Press (moderate feet)","Single-Leg Extension"]}]},
+ {myo:1,rest:15,ex:[{id:"db-lateral",n:"DB Lateral Raise",s:4,r:"15–20",tg:"side delts",myo:1,
+  nt:"MYO-REPS with dumbbells — nothing to queue for. Highest-rep delt work of the week.",
+  su:["Lateral Raise Machine","Cable Lateral Raise"]}]},
+ {rest:75,ex:[{id:"seated-leg-curl",n:"Seated Leg Curl",s:3,r:"10–15",tg:"hamstrings",
+  nt:"Third hamstring exposure — clears the 12-set floor.",
+  su:["Single-Leg Seated Curl","Lying Leg Curl"]}]},
+ {myo:1,rest:15,ex:[{id:"standing-calf",n:"Standing Calf Raise",s:4,r:"15–20",tg:"calves · toes in",myo:1,
+  nt:"MYO-REPS. Fourth calf session, toes in today.",
+  su:["Leg Press Calf Raise","Smith Calf Raise"]}]},
+ {rest:60,ex:[{id:"hip-abd-add",n:"Hip Abd ⇄ Hip Add",s:3,r:"15–25",tg:"glute med · adductors",
+  nt:"Same machine, flip the pads. Lean forward 30–45°.",
+  su:["Cable Abduction","Banded Lateral Walk"]}]},
 ]},
 ];
 
 const REFS=[
-{t:"⏱️ Why the supersets",i:[
- "<strong>Paired blocks are the whole reason this fits in the time.</strong> While one muscle works the other recovers, so a 40–75 s walk-over gives each exercise ~2 min of real rest.",
- "Supersets produce the <strong>same strength and hypertrophy</strong> as straight sets in a fraction of the session — that's the trade being made here.",
- "<strong>Friday's first two lifts are deliberately NOT supersetted.</strong> They're the heaviest work of the week and they get full rest.",
- "Alternate A → B → A → B. Log each set as you finish it and the rest timer runs itself."]},
+{t:"🏟️ Built for a busy gym",i:[
+ "<strong>You never hold two stations at once.</strong> Every exercise is straight sets on one machine — no walking back and forth to hold a superset together.",
+ "<strong>Myo-reps buy the time back instead.</strong> One hard set, 15 s rest, 5 more reps, three times — same weight, same machine, roughly four sets of stimulus in about a third of the time. That is why the delts, calves and rear delts are done this way.",
+ "<strong>The one exception is Hip Abd ⇄ Hip Add</strong>, which is a single machine — you just flip the pads.",
+ "<strong>Every exercise has two named alternatives.</strong> Open the card and tap one if the station is taken. Your log keeps them separate, so swapping doesn't corrupt the weights on the main lift.",
+ "Intensity techniques are here for <em>time</em>, not intensity — volume-equated they grow the same as straight sets, they just finish sooner."]},
 {t:"📈 Progression",i:[
  "<strong>Double progression.</strong> When every set of an exercise hits the TOP of its rep range, add the smallest increment next session.",
  "The app now stores reps as well as weight, so it can actually tell you when that happens — the ▲ on a card means you earned the jump.",
  "<strong>4 weeks, then a deload:</strong> same weights, half the sets.",
  "Leg extension is your progressive quad lift. Leg press stays deliberately light."]},
 {t:"🎯 What changed and why",i:[
- "<strong>Chest was 15 sets upper / 3 sets everything else.</strong> Now 9 / 9 — flat machine press and a mid-height pec deck came in.",
- "<strong>Back was outmuscled by chest 22:14, with no wide grip anywhere.</strong> Now 18 sets and Wednesday leads with a wide overhand pulldown.",
- "<strong>17 sets a week went to forearms, 5 to biceps.</strong> Reverse curls and wrist curls are gone; supinated curls went 5 → 11.",
- "<strong>Quads were the lowest-volume major muscle.</strong> 10 → 14, via leg extension three times a week.",
- "<strong>37% of sets sat above 16 reps</strong>, where the stack has no small enough increment to progress with. Now 14%.",
- "<strong>No add-on block.</strong> Everything you skipped lived down there — the neck work never happened once."]},
+ "<strong>No supersets across the gym floor.</strong> The previous version assumed you could hold two machines at once. You can't, so everything is single-station now.",
+ "<strong>Three press angles instead of one.</strong> Incline, flat and decline machine presses — chest is 19 sets split 7 upper / 8 mid / 4 lower, where it used to be 15 upper and 3 of everything else.",
+ "<strong>T-bar row added</strong>, so back sits at 20 sets across five angles: T-bar, wide overhand, close neutral, seated cable, chest-supported.",
+ "<strong>Lateral raise machine and biceps machine</strong> pulled in — single stations for two priority muscles, no dumbbells to hunt for.",
+ "<strong>Overhead triceps kept, once.</strong> Pushdowns twice a week for the lateral head, but the long head only lengthens overhead, and it is the biggest of the three — so Friday uses one dumbbell on any bench.",
+ "<strong>Crunch and leg raise, one each.</strong> Crunches out-activate leg raises by about 36% and bias the upper abs; leg raises bias the lower. One of each covers both.",
+ "<strong>Neck work survived</strong> only because a plate and a towel need no machine."]},
 {t:"🔥 Warm-up",i:[
  "<strong>5 minutes on the bike or an incline walk</strong> to raise temperature. That's the whole general warm-up.",
  "<strong>Ramp-up sets on the FIRST exercise of each block only</strong> — 2–3 progressively heavier sets of about 5 reps, stopping well short. They don't count toward your volume and the app doesn't log them.",
@@ -455,30 +465,39 @@ function earned(ex){
    accounting used to set the targets, so plan and actual are comparable.
    Band = 12–20 weekly sets per muscle (Baz-Valle 2022 systematic review). */
 const MUS={
- "incline-db-press":{Chest:1,Triceps:.5},"smith-incline":{Chest:1,Triceps:.5},
  "machine-incline-press":{Chest:1,Triceps:.5},"machine-chest-press":{Chest:1,Triceps:.5},
- "pec-deck":{Chest:1},"assisted-dips":{Chest:1,Triceps:1},
- "chest-supported-row":{Back:1,"Rear delt":.5,Biceps:.5},
+ "machine-decline-press":{Chest:1,Triceps:.5},"pec-deck":{Chest:1},
+ "t-bar-row":{Back:1,"Rear delt":.5,Biceps:.5},"chest-supported-row":{Back:1,"Rear delt":.5,Biceps:.5},
  "seated-cable-row":{Back:1,"Rear delt":.5,Biceps:.5},
  "lat-pulldown-wide":{Back:1,Biceps:.5},"neutral-machine-pd":{Back:1,Biceps:.5},
- "btb-cable-lateral":{"Side delt":1},"db-lateral":{"Side delt":1},
- "reverse-pec-deck":{"Rear delt":1},"face-pull":{"Rear delt":1},"oh-cable-triceps":{Triceps:1},"cable-pushdown":{Triceps:1},
- "bayesian-curl":{Biceps:1},"incline-db-curl":{Biceps:1},"hammer-curl":{Biceps:.5},
+ "lateral-raise-machine":{"Side delt":1},"db-lateral":{"Side delt":1},
+ "reverse-pec-deck":{"Rear delt":1},"face-pull":{"Rear delt":1},
+ "cable-pushdown":{Triceps:1},"db-oh-triceps":{Triceps:1},
+ "biceps-machine":{Biceps:1},"incline-db-curl":{Biceps:1},
  "leg-extension":{Quads:1},"leg-press":{Quads:1},"seated-leg-curl":{Hamstrings:1},
  "standing-calf":{Calves:1},"hip-abd-add":{"Glute med":1},
- "cable-crunch":{Abs:1},"hanging-leg-raise":{Abs:1},
- "back-extension":{Erectors:1,Hamstrings:.5},"back-extension-light":{Erectors:1,Hamstrings:.5},
+ "crunch":{Abs:1},"hanging-leg-raise":{Abs:1},
+ "back-extension":{Erectors:1,Hamstrings:.5},
  "neck-curl":{Neck:1},"neck-ext":{Neck:1}};
-const KBW='gymv2:bw', SCALE=30;   // bar scale: 0-30 sets, band 12-20
-const allIds=()=>{const s=new Set();PROG.forEach(d=>d.slots.forEach(sl=>sl.ex.forEach(x=>s.add(x.id))));return [...s]};
-const exName=id=>{for(const d of PROG)for(const sl of d.slots)for(const x of sl.ex)if(x.id===id)return x.n;return id};
+const KBW='gymv2:bw', SCALE=30;
+const KV='gymv2:var:';
+const varOf=(di,si)=>J(KV+di+':'+si,0);
+const setVar=(di,si,v)=>W(KV+di+':'+si,v);
+const baseId=id=>id.split('@')[0];
+function variantName(x,v){return v===0?x.n:(x.su&&x.su[v-1])||x.n}
+function variantId(x,v){return v===0?x.id:x.id+'@'+v}   // bar scale: 0-30 sets, band 12-20
+const allIds=()=>{const s=new Set();PROG.forEach((d,di)=>d.slots.forEach((sl,si)=>sl.ex.forEach(x=>{
+  s.add(x.id); (x.su||[]).forEach((_,i)=>s.add(x.id+'@'+(i+1)))})));return [...s]};
+const exName=id=>{const b=baseId(id),v=+(id.split('@')[1]||0);
+  for(const d of PROG)for(const sl of d.slots)for(const x of sl.ex)if(x.id===b)return variantName(x,v);return id};
 function plannedVol(){const t={};
   PROG.forEach(d=>d.slots.forEach(sl=>sl.ex.forEach(x=>{
     for(const m in MUS[x.id]||{})t[m]=(t[m]||0)+x.s*MUS[x.id][m]})));return t}
 function actualVol(n){const cut=new Date(Date.now()-n*864e5).toISOString().slice(0,10),t={};
   allIds().forEach(id=>getEx(id).forEach(e=>{if(e.d>cut){
     const c=e.sets.filter(Boolean).length;
-    for(const m in MUS[id]||{})t[m]=(t[m]||0)+c*MUS[id][m]}}));return t}
+    const b=baseId(id);
+    for(const m in MUS[b]||{})t[m]=(t[m]||0)+c*MUS[b][m]}}));return t}
 function trainedDays(){const s=new Set();
   allIds().forEach(id=>getEx(id).forEach(e=>{if(e.sets.filter(Boolean).length)s.add(e.d)}));
   return [...s].sort()}
@@ -515,9 +534,9 @@ function blockWeek(){
 function sessionSets(){
   let done=0,total=0,stamps=[];
   if(!PROG[day])return {done,total,stamps};
-  PROG[day].slots.forEach(sl=>sl.ex.forEach(x=>{
+  PROG[day].slots.forEach((sl,si)=>sl.ex.forEach(x=>{
     total+=x.s;
-    const e=today(x.id);
+    const e=today(variantId(x,varOf(day,si)));
     if(e){done+=e.sets.filter(Boolean).length; e.ts.forEach(t=>t&&stamps.push(t))}
   }));
   return {done,total,stamps:stamps.sort((a,b)=>a-b)};
@@ -584,34 +603,38 @@ function render(){
   const D=PROG[day];
   let h=`<div class="dv active"><div class="dlb">${D.lb}</div>`, n=0;
   D.slots.forEach((sl,si)=>{
-    const pair=sl.ex.length>1;
-    h+=`<div class="slot${pair?' ss':''}">`;
-    if(pair)h+=`<div class="ss-hd">⇄ Superset — alternate<span class="rt">${sl.rest}s between</span></div>`;
+    const isMyo=!!sl.ex[0].myo;
+    h+=`<div class="slot${isMyo?' myo':''}">`;
+    if(isMyo)h+=`<div class="ss-hd">◈ Myo-reps — one station<span class="rt">15s between minis</span></div>`;
     sl.ex.forEach((x,xi)=>{
       n++;
-      const p=prev(x.id), t=today(x.id);
+      const v=varOf(day,si), xid=variantId(x,v), xn=variantName(x,v);
+      const p=prev(xid), t=today(xid);
       const doneN=t?t.sets.filter(Boolean).length:0;
-      const lbl=pair?String.fromCharCode(65+xi):String(n);
+      const lbl=String(n);
       let prevH='';
-      if(p)prevH=`<div class="ex-prev${earned(x)?' up':''}">${fmtSets(p)}${earned(x)?' ▲':''}</div>`;
+      if(p)prevH=`<div class="ex-prev${earned({...x,id:xid})?' up':''}">${fmtSets(p)}${earned({...x,id:xid})?' ▲':''}</div>`;
       let rows=`<div class="shdr"><span></span><span>Weight</span><span>Reps</span><span></span></div>`;
       for(let i=0;i<x.s;i++){
         const st=t&&t.sets[i], ps=p&&p.sets[i];
-        rows+=`<div class="srow${st?' done':''}" id="r-${si}-${xi}-${i}">
-          <div class="sn">${i+1}</div>
+        const mini=x.myo&&i>0;
+        rows+=`<div class="srow${st?' done':''}${mini?' mini':''}" id="r-${si}-${xi}-${i}">
+          <div class="sn">${mini?'+':i+1}</div>
           <div class="fld"><input type="number" inputmode="decimal" step="0.5" placeholder="${ps?n1(ps.w):''}" value="${st?n1(st.w):''}" id="w-${si}-${xi}-${i}"><span class="u">kg</span></div>
-          <div class="fld"><input type="number" inputmode="numeric" placeholder="${ps?ps.r:x.r.split(/[–-]/)[0]}" value="${st?st.r:''}" id="p-${si}-${xi}-${i}"></div>
+          <div class="fld"><input type="number" inputmode="numeric" placeholder="${ps?ps.r:(mini?'5':x.r.split(/[–-]/)[0])}" value="${st?st.r:''}" id="p-${si}-${xi}-${i}"></div>
           <button class="tick" onclick="mark(${si},${xi},${i})">${TICK}</button></div>`;
       }
       h+=`<div class="ex" id="ex-${si}-${xi}">
         <div class="ex-hd" onclick="this.parentNode.classList.toggle('open')">
           <div class="ex-badge${doneN>=x.s?' done':''}">${lbl}</div>
-          <div class="ex-main"><div class="ex-n">${x.n}</div>
-            <div class="ex-sub"><b>${x.s} × ${x.r}</b> · <span class="tgt">${x.tg}</span></div></div>
+          <div class="ex-main"><div class="ex-n">${xn}</div>
+            <div class="ex-sub"><b>${x.myo?'1 × '+x.r+' then 3 × 5':x.s+' × '+x.r}</b> · <span class="tgt">${x.tg}</span></div></div>
           ${prevH}${CHEV}</div>
         <div class="sets">${rows}</div>
-        <div class="det"><div class="nt">${x.nt}${x.su&&x.su!=='—'?`<span class="sub">↳ Sub: ${x.su}</span>`:''}</div>
-          <div class="hist" id="h-${si}-${xi}">${histHTML(x.id)}</div></div></div>`;
+        <div class="det"><div class="nt">${x.nt}</div>
+          <div class="swap"><span class="swap-l">Station taken?</span>
+            ${[x.n,...(x.su||[])].map((alt,vi)=>`<button class="sw${vi===v?' on':''}" onclick="event.stopPropagation();swapTo(${si},${xi},${vi})">${alt}</button>`).join('')}</div>
+          <div class="hist" id="h-${si}-${xi}">${histHTML(xid)}</div></div></div>`;
     });
     h+=`</div>`;
   });
@@ -687,30 +710,33 @@ function histHTML(id){
 }
 
 /* ═══════════ actions ═══════════ */
+function swapTo(si,xi,v){setVar(day,si,v);render();toast(v?'Swapped in':'Back to the main lift')}
 function mark(si,xi,i){
   const sl=PROG[day].slots[si], x=sl.ex[xi];
+  const v=varOf(day,si), xid=variantId(x,v), xn=variantName(x,v);
   const wi=document.getElementById(`w-${si}-${xi}-${i}`), pi=document.getElementById(`p-${si}-${xi}-${i}`);
   const row=document.getElementById(`r-${si}-${xi}-${i}`);
   if(row.classList.contains('done')){
-    unlogSet(x.id,i);row.classList.remove('done');paint();refreshHist(si,xi);return;
+    unlogSet(xid,i);row.classList.remove('done');paint();refreshHist(si,xi);return;
   }
   const w=wi.value.trim()||wi.placeholder, r=pi.value.trim()||pi.placeholder;
   if(!w||!r){toast('Weight and reps first');wi.focus();return}
   wi.value=w;pi.value=r;
-  logSet(x.id,i,w,r);
+  logSet(xid,i,w,r);
   row.classList.add('done');
   const badge=document.querySelector(`#ex-${si}-${xi} .ex-badge`);
-  const t=today(x.id);
+  const t=today(xid);
   if(t&&t.sets.filter(Boolean).length>=x.s)badge.classList.add('done');
   refreshHist(si,xi);paint();
   // superset: point at the partner; otherwise the same exercise
-  const partner=sl.ex.length>1?sl.ex[(xi+1)%sl.ex.length]:null;
-  startRest(sl.rest, partner?partner.n:x.n, partner?'then back to '+x.n:`set ${i+2} of ${x.s}`);
+  if(i+1<x.s) startRest(sl.rest, xn, x.myo?`then ${i?'another':'the first'} mini-set of 5`:`set ${i+2} of ${x.s}`);
+  else skipRest();
   if(sessionSets().done===sessionSets().total)setTimeout(finish,900);
 }
 function refreshHist(si,xi){
   const el=document.getElementById(`h-${si}-${xi}`);
-  if(el)el.innerHTML=histHTML(PROG[day].slots[si].ex[xi].id);
+  const x=PROG[day].slots[si].ex[xi];
+  if(el)el.innerHTML=histHTML(variantId(x,varOf(day,si)));
 }
 function go(i){day=i;render();window.scrollTo({top:0,behavior:'smooth'})}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600)}
