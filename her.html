@@ -2,271 +2,238 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Her Gym">
-<meta name="theme-color" content="#faf8f6">
+<meta name="theme-color" content="#f2f2f7">
 <title>Her Gym</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
---bg:#faf8f6;--w:#fff;--t:#2d2a32;--t2:#4a4655;--t3:#9590a0;
---b:#ede9e5;--rose:#c96b73;--rose2:#faf0f0;--lav:#9b8ec4;--lav2:#f3f0fa;
---gn:#6dbf7b;--gn2:#edf8ef;--or:#e8a44a;--or2:#fdf5e8;
---r:14px;--sh:0 1px 4px rgba(45,42,50,.06);
-}
-body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;background:var(--bg);color:var(--t);line-height:1.48;-webkit-font-smoothing:antialiased;padding-bottom:16px;-webkit-text-size-adjust:100%}
-
-.hd{background:var(--w);padding:50px 20px 14px;text-align:center;border-bottom:1px solid var(--b);position:sticky;top:0;z-index:50}
-.hd h1{font-size:19px;font-weight:800;letter-spacing:-.4px;background:linear-gradient(135deg,var(--rose),var(--lav));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hd p{font-size:12px;color:var(--t3);margin-top:2px}
-
-.tabs{display:flex;gap:6px;padding:10px 14px;background:var(--w);border-bottom:1px solid var(--b);overflow-x:auto;position:sticky;top:70px;z-index:49;-webkit-overflow-scrolling:touch}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex-shrink:0;padding:7px 16px;border-radius:20px;font-size:13px;font-weight:600;color:var(--t3);background:var(--bg);border:none;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s}
-.tab.active{background:var(--rose);color:#fff}
-.tab.today{position:relative}
-.tab.today::before{content:'';position:absolute;top:3px;right:3px;width:8px;height:8px;background:var(--gn);border-radius:50%;border:2px solid var(--w);box-shadow:0 0 0 1px var(--gn)}
-
-.cnt{padding:10px 14px}
-.dv{display:none}.dv.active{display:block}
-.dlb{font-size:11px;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px;padding-left:2px}
-
-.ex{background:var(--w);border-radius:var(--r);margin-bottom:8px;box-shadow:var(--sh);overflow:hidden;border-left:4px solid transparent}
-.ex.pri{border-left-color:var(--rose)}
-.ex.addon{border-left-color:var(--lav)}
-.ex-main{padding:12px 14px}
-.ex-top{display:flex;align-items:center;gap:10px}
-.ex-num{min-width:24px;height:24px;border-radius:8px;background:var(--rose2);color:var(--rose);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ex.addon .ex-num{background:var(--lav2);color:var(--lav)}
-.ex-name{font-size:14.5px;font-weight:700;letter-spacing:-.2px;line-height:1.3;flex:1}
-.ex.addon .ex-name{font-size:13.5px;color:var(--lav)}
-.ex-arr{width:16px;height:16px;color:var(--t3);transition:transform .2s;flex-shrink:0}
-.ex.open .ex-arr{transform:rotate(180deg)}
-
-.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
-.chip{padding:4px 9px;border-radius:7px;font-size:11.5px;font-weight:600;background:var(--bg);display:inline-flex;align-items:center;gap:3px}
-.chip .l{font-weight:500;color:var(--t3);font-size:10.5px}
-.chip.tech{background:var(--or2);color:var(--or)}
-
-.ex-notes{font-size:12.5px;color:var(--t2);line-height:1.5;margin-top:8px}
-.ex-sub{font-size:12px;color:var(--t3);margin-top:8px;padding-top:8px;border-top:1px solid var(--b)}
-
-.ex-wt{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--bg)}
-.ex-wt-prev{font-size:11px;color:var(--t3);flex:1;line-height:1.3;-webkit-tap-highlight-color:transparent}
-.ex-wt-prev strong{color:var(--t2);font-weight:700;font-size:13px}
-.ex-wt-prev .date{font-size:10px}
-.wt-input{width:72px;padding:8px 6px;border-radius:10px;border:1.5px solid var(--b);font-size:15px;font-weight:700;font-family:inherit;color:var(--t);background:var(--w);text-align:center;outline:none;-webkit-appearance:none;transition:border-color .15s,box-shadow .15s}
-.wt-input:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(201,107,115,.12)}
-.wt-input::placeholder{color:var(--t3);font-weight:400;font-size:12px}
-.wt-save{width:36px;height:36px;border-radius:10px;border:none;background:var(--rose);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:all .15s;flex-shrink:0}
-.wt-save:active{transform:scale(.92)}
-.wt-save.saved{background:var(--gn);animation:pop .3s ease}
-.wt-save svg{width:18px;height:18px}
-@keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
-.wt-trend{font-size:10px;font-weight:700;margin-left:4px}
-.wt-trend.up{color:var(--gn)}
-.wt-trend.down{color:var(--rose)}
-.wt-trend.same{color:var(--t3)}
-
-.ex-det{display:none;padding:0 14px 10px}
-.ex-hist{margin-top:10px;padding:8px 10px;background:var(--bg);border-radius:10px}
-.ex-hist-title{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
-.hist-row{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:1px solid rgba(0,0,0,.04)}
-.hist-row:last-child{border-bottom:none}
-.hist-date{color:var(--t3);font-weight:500}
-.hist-val{font-weight:700;color:var(--t)}
-
-.addon-sep{display:flex;align-items:center;gap:8px;margin:14px 0 8px;font-size:11px;font-weight:700;color:var(--lav);text-transform:uppercase;letter-spacing:.7px}
-.addon-sep::after{content:'';flex:1;height:1px;background:rgba(155,142,196,.2)}
-
-.ref{background:var(--w);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;margin-bottom:8px}
-.ref-h{display:flex;align-items:center;justify-content:space-between;padding:13px 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.ref-h h3{font-size:14px;font-weight:700}
-.ref-a{width:16px;height:16px;color:var(--t3);transition:transform .2s}
-.ref.open .ref-a{transform:rotate(180deg)}
-.ref-b{display:none;padding:0 14px 12px}
-.ref.open .ref-b{display:block}
-.ref-i{font-size:12.5px;color:var(--t2);line-height:1.6;margin-bottom:6px;padding-left:10px;border-left:2px solid var(--b)}
-.ref-i strong{color:var(--t)}
-
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--t);color:#fff;padding:10px 24px;border-radius:22px;font-size:13px;font-weight:600;z-index:999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);box-shadow:0 4px 20px rgba(0,0,0,.18)}
-.toast.show{transform:translateX(-50%) translateY(0)}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="hd"><h1>HER PROGRAM</h1><p>4-Day Upper/Lower · Mon / Tue / Thu / Fri</p></div>
-<div class="tabs" id="tabs"></div>
-<div class="cnt" id="cnt"></div>
-<div class="toast" id="toast"></div>
-<script>
-const CHV='<svg class="ex-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>';
-const CHV2='<svg class="ref-a" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>';
-const SAVE='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg>';
 
-const D=[
-{sh:"Mon",nm:"MONDAY",lb:"Lower A · Quad + Glute Emphasis",dw:1,ex:[
-{n:"Leg Press (feet mid, shoulder-width)",s:4,r:"10–12",rpe:"7→9",rest:"90-120s",nt:"Quad-focused foot position. Full depth — as deep as comfortable. 2s negative. Don't lock knees at top.",su:"Hack Squat Machine",p:1},
-{n:"Smith Machine Hip Thrust",s:3,r:"10–12",rpe:"8→9",rest:"90s",nt:"Pad the bar. Back on bench at bra-line level. Drive through heels. Squeeze glutes 1s at top. Full hip extension. Optional: band above knees for upper glute shelf.",su:"Barbell Glute Bridge",p:1},
-{n:"Smith Machine Reverse Lunge",s:2,r:"10–12/leg",rpe:"8→9",rest:"60s/leg",nt:"Step back onto ball of foot. Front knee tracks toes. Deep stretch at bottom. Glutes + quads in lengthened position.",su:"Bulgarian Split Squat (DB or Smith)"},
-{n:"Leg Extension",s:3,r:"12–15",rpe:"8→9",rest:"60s",nt:"Seat back as far as comfortable. Slow 2s negative. Grows the quad head that squats/presses miss entirely.",su:"Single-Leg Extension"},
-{n:"Hip Abduction Machine",s:4,r:"15–25",rpe:"8→9",rest:"45-60s",nt:"Lean forward 30° for glute max emphasis. Upright for glute medius. Slow controlled reps. Builds the 'upper shelf.'",su:"Banded Lateral Walks",p:1},
-{n:"Standing Calf Raise",s:3,r:"12–15",rpe:"8→9",rest:"45s",nt:"Knees locked straight. 2s pause at deep stretch. Controlled up. 15s loaded stretch between sets.",su:"Leg Press Calf Raise"},
-{n:"__S__"},
-{n:"DB Lateral Raise",s:2,r:"12–15",rpe:"8→9",rest:"45s",nt:"Neutral grip. Raise to shoulder height. 2-3s eccentric. Builds shoulder 'caps' for hourglass shape.",a:1},
-{n:"Plank + Dead Bug",s:2,r:"30-45s / 10 per side",rpe:"—",rest:"30s",nt:"Core stability only. No heavy weighted ab work — keeps waist tight.",a:1},
+<div class="hd">
+  <div class="hd-top">
+    <div class="hd-t">HER GYM <span id="wk">Week 1</span></div>
+    <div class="hd-meta">
+      <div class="pill" id="clock">–</div>
+      <div class="pill" id="count">0/0</div>
+    </div>
+  </div>
+  <div class="prog"><i id="progbar"></i></div>
+  <div class="tabs" id="tabs"></div>
+</div>
+
+<div class="cnt" id="cnt"></div>
+
+<div class="rest" id="rest">
+  <div class="rest-n" id="restN">0:00</div>
+  <div class="rest-i"><b id="restEx">—</b><span id="restNext">next up</span></div>
+  <button class="rest-x" onclick="skipRest()">SKIP</button>
+  <div class="rest-bar" id="restBar"></div>
+</div>
+
+<div class="sheet" id="sheet"><div class="sheet-in" id="sheetIn"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* Per-person settings. The app itself is engine.js, shared with index.html,
+   so a fix to the app lands in both. */
+const CFG={
+ key:'herv2:',          // localStorage prefix — never change, it holds the log
+ block:6,               // beginners: six building weeks, then the deload week
+ overMin:70,
+ band:[8,14],           // weekly sets per muscle, green zone on the stats tab
+ bandNote:'the green zone is 8–14 sets — plenty for a first year of lifting, where every set still pays well.',
+ bw:{lo:-.2,hi:.5,cap:'Target: hold steady or gain up to 0.5 kg a month. A beginner builds muscle at that.',
+  msg:(r,ok)=>ok ? 'Right where it should be. At this stage the muscle comes from the training, not from eating a lot more.'
+          : r>.5 ? 'Gaining faster than muscle can be built — take about 150 kcal off.'
+                 : 'Losing weight. If that isn\'t the plan, add about 150–200 kcal — protein first.'},
+ /* her first app saved one weight per exercise under positional keys
+    (hg_<day>_<index>). Copy those weights onto the new stable ids once,
+    so the first session shows what she lifted last time. Old keys are kept. */
+ migrate(){
+  if(localStorage.getItem(K+'migrated'))return;
+  const MAP={0:{0:'leg-press',1:'hip-thrust',2:'reverse-lunge',3:'leg-extension',4:'hip-abduction',5:'standing-calf',7:'db-lateral'},
+   1:{0:'lat-pulldown-wide',1:'seated-cable-row',2:'machine-shoulder-press',3:'lateral-raise-machine',4:'reverse-pec-deck',5:'machine-chest-press',6:'cable-pushdown',7:'incline-db-curl',9:'hip-abduction',10:'cable-kickback'},
+   2:{0:'smith-rdl',1:'hip-thrust-heavy',2:'leg-press-glute',3:'seated-leg-curl',4:'leg-extension',5:'standing-calf'},
+   3:{0:'neutral-pulldown',1:'chest-supported-row',2:'machine-incline-press',3:'db-lateral',4:'reverse-pec-deck',5:'cable-pushdown',6:'incline-db-curl',8:'seated-leg-curl',9:'hip-abduction'}};
+  for(const di in MAP)for(const ei in MAP[di]){
+   const old=J(`hg_${di}_${ei}`,[]); if(!old.length)continue;
+   const id=MAP[di][ei], a=getEx(id);
+   old.forEach(o=>{if(o&&o.w&&!a.some(e=>e.d===o.d))a.push({d:o.d,sets:[{w:+o.w,r:0}],ts:[]})});
+   a.sort((x,y)=>x.d<y.d?-1:1); W(K+id,a);
+  }
+  W(K+'migrated',dk());
+ },
+};
+
+const PROG=[
+{sh:"Mon",dw:1,lb:"Lower A · quads + glutes",slots:[
+ {rest:120,ex:[{id:"leg-press",n:"Leg Press (feet mid)",s:3,r:"8–12",tg:"quads · glutes",
+  nt:"Feet in the middle, shoulder-width. As deep as you can keep your lower back on the pad. 2 s down, don't lock the knees at the top.",
+  su:["Hack Squat Machine","Smith Squat"]}]},
+ {rest:120,ex:[{id:"hip-thrust",n:"Smith Hip Thrust",s:3,r:"8–12",tg:"glutes",
+  nt:"Pad the bar. Bench at bra-line, chin tucked, drive through the heels. Squeeze 1 s at the top — full hip lockout without arching the lower back.",
+  su:["Hip Thrust Machine","DB Hip Thrust"]}]},
+ {rest:90,ex:[{id:"seated-leg-curl",n:"Seated Leg Curl",s:3,r:"10–15",tg:"hamstrings",
+  nt:"Seated, not lying — it grows the hamstrings about 50% more. Lean forward slightly, 2 s on the way back.",
+  su:["Single-Leg Seated Curl","Lying Leg Curl"]}]},
+ {rest:90,ex:[{id:"leg-extension",n:"Leg Extension",s:3,r:"10–15",tg:"quads",
+  nt:"Seat back as far as is comfortable. Slow 2 s negative.",
+  su:["Single-Leg Extension","Leg Press (feet low)"]}]},
+ {rest:90,ex:[{id:"reverse-lunge",n:"Smith Reverse Lunge",s:2,r:"8–12",tg:"glutes · quads · per leg",
+  nt:"Reps are per leg. Step back onto the ball of the foot, front knee over the toes, sink into the stretch at the bottom.",
+  su:["DB Split Squat","DB Step-Up"]}]},
+ {rest:60,ex:[{id:"hip-abduction",n:"Hip Abduction Machine",s:3,r:"12–20",tg:"glute med",
+  nt:"Lean forward ~30° for more of the upper glute. Controlled — no bouncing the pads.",
+  su:["Cable Abduction","Banded Lateral Walk"]}]},
+ {rest:60,ex:[{id:"standing-calf",n:"Standing Calf Raise",s:3,r:"10–15",tg:"calves",
+  nt:"Knees straight, 2 s pause in the deep stretch at the bottom.",
+  su:["Leg Press Calf Raise","Smith Calf Raise"]}]},
 ]},
-{sh:"Tue",nm:"TUESDAY",lb:"Upper A + Glute Finishers",dw:2,ex:[
-{n:"Lat Pulldown (wide, overhand)",s:3,r:"10–12",rpe:"7→9",rest:"90s",nt:"Lean back slightly. Pull to upper chest. Squeeze lats 1s. Full stretch at top — let lats pull apart. V-taper = waist looks smaller.",su:"Machine Pulldown",p:1},
-{n:"Seated Cable Row (neutral V-handle)",s:3,r:"10–12",rpe:"8→9",rest:"90s",nt:"Pull to belly button. Squeeze scapulae together 1s. Mid-back thickness and posture.",su:"Machine Row",p:1},
-{n:"Machine Shoulder Press",s:3,r:"10–12",rpe:"8→9",rest:"90s",nt:"Controlled 2s negative. Covers front + side delts. Don't lock out at top.",su:"DB Shoulder Press"},
-{n:"Cable Lateral Raise",s:3,r:"12–15",rpe:"8→9",rest:"60s",nt:"Cable from opposite side, behind body. Neutral grip (NOT 'pour the water'). Raise to shoulder height or above. 2-3s eccentric.",su:"Machine Lateral Raise",p:1},
-{n:"Reverse Pec Deck",s:2,r:"12–15",rpe:"8→9",rest:"60s",nt:"Light weight. 1-2s squeeze at peak. Rear delts + posture. Don't use momentum.",su:"Face Pull"},
-{n:"Machine Chest Press",s:2,r:"10–12",rpe:"8→9",rest:"60s",nt:"Posture benefit + subtle lift effect. Minimal volume — not a priority.",su:"Cable Fly"},
-{n:"Cable Triceps Pushdown (rope)",s:2,r:"12–15",rpe:"8→9",rest:"45s",nt:"Spread rope at bottom. Supplements pressing volume.",su:"Machine Triceps Extension"},
-{n:"DB Curl",s:2,r:"10–15",rpe:"8→9",rest:"45s",nt:"Elbows pinned. Squeeze at top. Simple and effective.",su:"BB Curl"},
-{n:"__S__"},
-{n:"Hip Abduction Machine",s:2,r:"15–25",rpe:"8→9",rest:"45s",nt:"Lean forward 30°. Keeps glute medius frequency at 3-4x/week. Quick pump finisher.",a:1,p:1},
-{n:"Cable Kickback",s:2,r:"15–20/leg",rpe:"8→9",rest:"45s/leg",nt:"Ankle strap. Slight lean. Motion from HIP not spine. Squeeze glute at top. Constant cable tension.",a:1,p:1},
+{sh:"Tue",dw:2,lb:"Upper A · back + shoulders",slots:[
+ {rest:120,ex:[{id:"lat-pulldown-wide",n:"Lat Pulldown — wide",s:3,r:"8–12",tg:"back · width",
+  nt:"Pull to the upper chest, squeeze 1 s, then let the arms go all the way up for the stretch. Wider back = the waist reads smaller.",
+  su:["Machine Pulldown (wide)","Assisted Pull-Up"]}]},
+ {rest:120,ex:[{id:"seated-cable-row",n:"Seated Cable Row (V-handle)",s:3,r:"8–12",tg:"back · mid",
+  nt:"Pull to the belly button, shoulder blades together 1 s, lean slightly forward on the stretch.",
+  su:["Machine Row","Chest-Supported Row (wide)"]}]},
+ {rest:90,ex:[{id:"machine-shoulder-press",n:"Machine Shoulder Press",s:3,r:"8–12",tg:"front + side delts",
+  nt:"2 s down, stop just short of lockout at the top.",
+  su:["Seated DB Shoulder Press","Smith Shoulder Press"]}]},
+ {rest:60,ex:[{id:"db-lateral",n:"DB Lateral Raise",s:3,r:"12–15",tg:"side delts",
+  nt:"Neutral grip, raise to shoulder height, 2–3 s down. The shoulder 'cap' — the top of the hourglass.",
+  su:["Lateral Raise Machine","Cable Lateral Raise"]}]},
+ {rest:90,ex:[{id:"machine-incline-press",n:"Machine Incline Press",s:2,r:"8–12",tg:"chest · upper",
+  nt:"Shoulder blades back and down. Small dose — posture and upper chest, not a priority.",
+  su:["Incline DB Press","Machine Chest Press"]}]},
+ {rest:60,ex:[{id:"reverse-pec-deck",n:"Reverse Pec Deck",s:2,r:"12–15",tg:"rear delts · posture",
+  nt:"Light. 1 s squeeze at the back, no swinging.",
+  su:["Cable Face Pull (rope)","Band Pull-Apart"]}]},
+ {rest:60,ex:[{id:"cable-pushdown",n:"Cable Pushdown (rope)",s:2,r:"10–15",tg:"triceps",
+  nt:"Elbows pinned to the ribs, spread the rope at the bottom.",
+  su:["Machine Triceps Extension","Bar Pushdown"]}]},
+ {rest:60,ex:[{id:"incline-db-curl",n:"Incline DB Curl",s:2,r:"10–15",tg:"biceps",
+  nt:"Bench at 45–60°, arms hanging behind the body — loads the biceps stretched.",
+  su:["Biceps Machine","DB Curl"]}]},
 ]},
-{sh:"Thu",nm:"THURSDAY",lb:"Lower B · Glute + Hamstring Emphasis",dw:4,ex:[
-{n:"Smith Machine RDL",s:3,r:"8–10",rpe:"7→9",rest:"90-120s",nt:"Slight knee bend. Push hips BACK like closing a car door with your butt. Deep hamstring stretch. Bar close to legs. Neutral spine — never round. Best combined glute + ham exercise.",su:"DB RDL / Cable Pull-Through",p:1},
-{n:"Smith Machine Hip Thrust (heavier)",s:3,r:"8–10",rpe:"8→9",rest:"90s",nt:"Fewer reps, more weight than Monday. Progressive overload focus here. Optional band above knees.",su:"Barbell Glute Bridge",p:1},
-{n:"Leg Press (feet HIGH and WIDE)",s:3,r:"10–12",rpe:"8→9",rest:"90s",nt:"Feet at top of platform, wider than shoulders, toes out. Shifts emphasis to glutes and adductors. Deep ROM. Different from Monday's quad-focused placement.",su:"Hack Squat (wide stance)",p:1},
-{n:"Seated Leg Curl",s:4,r:"10–15",rpe:"8→9",rest:"60s",nt:"MUST be seated (grows 55% more hamstring than lying). Lean forward slightly. 2s eccentric. Hamstrings 'lift' glutes and create visible separation.",su:"Single-Leg Seated Curl",p:1},
-{n:"Leg Extension",s:3,r:"12–15",rpe:"8→9",rest:"60s",nt:"Same technique as Monday. Keeps quads at weekly target.",su:"Single-Leg Extension"},
-{n:"Standing Calf Raise",s:3,r:"12–15",rpe:"8→9",rest:"45s",nt:"Knees locked. Deep stretch. 15s loaded stretch between sets.",su:"Leg Press Calf Raise"},
-{n:"__S__"},
-{n:"Side Plank + Stomach Vacuum",s:2,r:"20-30s/side + 15-20s holds",rpe:"—",rest:"30s",nt:"Core stability + waist tightening. Vacuums can also be practiced daily at home. NO weighted oblique work.",a:1},
+{sh:"Thu",dw:4,lb:"Lower B · glutes + hamstrings",slots:[
+ {rest:120,ex:[{id:"smith-rdl",n:"Smith RDL",s:3,r:"8–12",tg:"hamstrings · glutes",
+  nt:"Soft knees, push the hips BACK like closing a car door with your bum. Bar close to the legs, back flat — stop where your back would start to round.",
+  su:["DB RDL","Cable Pull-Through"]}]},
+ {rest:120,ex:[{id:"hip-thrust-heavy",n:"Smith Hip Thrust — heavy",s:3,r:"6–10",tg:"glutes · heavy day",
+  nt:"Same setup as Monday, more weight, fewer reps. This is the lift to chase load on.",
+  su:["Hip Thrust Machine","DB Hip Thrust"]}]},
+ {rest:120,ex:[{id:"leg-press-glute",n:"Leg Press (feet high + wide)",s:3,r:"10–12",tg:"glutes · adductors",
+  nt:"Feet high and wider than the shoulders, toes out. Deep — this is where the glutes get stretched.",
+  su:["Hack Squat (wide stance)","DB Goblet Squat"]}]},
+ {rest:90,ex:[{id:"seated-leg-curl",n:"Seated Leg Curl",s:3,r:"10–15",tg:"hamstrings",
+  nt:"Second hamstring session. Lean forward, 2 s on the way back.",
+  su:["Single-Leg Seated Curl","Lying Leg Curl"]}]},
+ {rest:60,ex:[{id:"cable-kickback",n:"Cable Kickback",s:2,r:"12–15",tg:"glutes · per leg",
+  nt:"Reps are per leg. Ankle strap, slight forward lean, move from the hip — not the lower back. 1 s squeeze.",
+  su:["Glute Kickback Machine","45° Back Extension (glute bias)"]}]},
+ {rest:60,ex:[{id:"hip-abduction",n:"Hip Abduction Machine",s:3,r:"12–20",tg:"glute med",
+  nt:"Lean forward ~30°. Controlled.",
+  su:["Cable Abduction","Banded Lateral Walk"]}]},
+ {rest:60,ex:[{id:"standing-calf",n:"Standing Calf Raise",s:3,r:"10–15",tg:"calves",
+  nt:"Knees straight, pause in the stretch.",
+  su:["Leg Press Calf Raise","Smith Calf Raise"]}]},
+ {rest:60,ex:[{id:"dead-bug",n:"Dead Bug",s:2,r:"8–12",tg:"core · per side",bw:1,
+  nt:"Bodyweight — leave the weight box empty. Lower back pressed into the floor the whole time, slow. Reps per side.",
+  su:["Plank (count seconds as reps)","Pallof Press"]}]},
 ]},
-{sh:"Fri",nm:"FRIDAY",lb:"Upper B + Ham/Glute Finishers",dw:5,ex:[
-{n:"Lat Pulldown (neutral/close grip)",s:3,r:"10–12",rpe:"8→9",rest:"90s",nt:"Different grip from Tuesday. Pull elbows toward hips. Full stretch at top. Lower lat emphasis.",su:"Machine Pulldown",p:1},
-{n:"Seated Cable Row (wide grip)",s:3,r:"10–12",rpe:"8→9",rest:"90s",nt:"Different handle from Tuesday. Elbows wider for upper back emphasis. Squeeze 1s.",su:"Machine Row",p:1},
-{n:"Machine Incline Chest Press",s:3,r:"10–12",rpe:"8→9",rest:"90s",nt:"Upper chest for the 'lift' effect. Controlled negative. Retract scapulae.",su:"Incline DB Press"},
-{n:"DB Lateral Raise",s:3,r:"12–15",rpe:"8→9",rest:"60s",nt:"Different from Tuesday's cable version. Neutral grip. Shoulder height. 2-3s eccentric.",su:"Cable Lateral Raise",p:1},
-{n:"Reverse Pec Deck",s:2,r:"12–15",rpe:"8→9",rest:"60s",nt:"Second rear delt session. Light, 1-2s squeeze at peak. Posture + rounded shoulder look.",su:"Band Pull-Apart"},
-{n:"Cable Triceps Pushdown (rope)",s:2,r:"12–15",rpe:"8→9",rest:"45s",nt:"Spread rope at bottom. Second triceps session.",su:"Machine Triceps Extension"},
-{n:"DB Curl",s:2,r:"10–15",rpe:"8→9",rest:"45s",nt:"Elbows pinned. Squeeze at top.",su:"BB Curl"},
-{n:"__S__"},
-{n:"Seated Leg Curl",s:2,r:"10–15",rpe:"8→9",rest:"60s",nt:"Pushes hamstring frequency to 2x/week. Seated, lean forward. Hamstrings 'lift' glutes — #3 female aesthetic priority.",a:1,p:1},
-{n:"Hip Abduction Machine",s:2,r:"15–25",rpe:"8→9",rest:"45s",nt:"Keeps glute medius at 4x/week frequency. Lean forward for glute max emphasis.",a:1,p:1},
+{sh:"Fri",dw:5,lb:"Upper B · back + shoulders",slots:[
+ {rest:120,ex:[{id:"neutral-pulldown",n:"Lat Pulldown — close neutral",s:3,r:"8–12",tg:"back · lower lats",
+  nt:"Palms facing each other. Pull the elbows down toward the hips, full stretch at the top.",
+  su:["Machine Pulldown","Close-Grip Cable Pulldown"]}]},
+ {rest:120,ex:[{id:"chest-supported-row",n:"Chest-Supported Row (wide)",s:3,r:"8–12",tg:"back · upper",
+  nt:"Chest on the pad, elbows out wide. Squeeze 1 s.",
+  su:["Seated Cable Row (wide bar)","Machine Row"]}]},
+ {rest:90,ex:[{id:"machine-chest-press",n:"Machine Chest Press",s:2,r:"8–12",tg:"chest",
+  nt:"Shoulder blades back. Controlled negative.",
+  su:["Flat DB Press","Pec Deck"]}]},
+ {rest:60,ex:[{id:"lateral-raise-machine",n:"Lateral Raise Machine",s:4,r:"12–15",tg:"side delts",
+  nt:"Second side-delt session. 2–3 s down.",
+  su:["Cable Lateral Raise","DB Lateral Raise"]}]},
+ {rest:60,ex:[{id:"face-pull",n:"Cable Face Pull (rope)",s:2,r:"12–15",tg:"rear delts · posture",
+  nt:"Rope at eye height, pull to the forehead, elbows high.",
+  su:["Reverse Pec Deck","Band Pull-Apart"]}]},
+ {rest:60,ex:[{id:"oh-cable-triceps",n:"Overhead Cable Triceps Ext",s:2,r:"10–15",tg:"triceps · back of arm",
+  nt:"Facing away from the cable, elbows forward, deep stretch behind the head. Overhead grows the back of the arm more than pushdowns.",
+  su:["Seated DB Overhead Ext","Cable Pushdown (rope)"]}]},
+ {rest:60,ex:[{id:"bayesian-curl",n:"Bayesian Cable Curl",s:2,r:"10–15",tg:"biceps",
+  nt:"Face away from the cable, arm slightly behind you. Curl without letting the elbow drift forward.",
+  su:["Incline DB Curl","Biceps Machine"]}]},
+ {rest:60,ex:[{id:"cable-crunch",n:"Cable Crunch",s:2,r:"10–15",tg:"abs",
+  nt:"Kneel, rope by the ears, curl the ribs to the hips. Crunches build the abs; they don't widen the waist.",
+  su:["Machine Crunch","Weighted Crunch"]}]},
 ]},
 ];
 
 const REFS=[
-{t:"📈 Progression & Mesocycle",i:[
-"<strong>Double progression:</strong> When ALL sets hit top of rep range at target RPE → increase weight by smallest increment (2.5 kg lower body, 1-2 kg upper body).",
-"<strong>Mesocycle:</strong> 6-8 weeks + deload (longer than men's programs — beginners accumulate less fatigue). Deload = same exercises, same weight, half the sets.",
-"<strong>Starting conservative:</strong> Week 1-2, do 2 sets instead of 3 on exercises if needed. Build to full volume by week 3-4.",
-"<strong>RPE 7-9 always.</strong> Never go to true failure in the first 3 months. Accuracy improves with practice.",
-"<strong>No intensity techniques</strong> (no dropsets, myo-reps, rest-pause) for the first 6 months. Straight sets + progressive overload is enough.",
-]},
+{t:"🏟️ How the app works",i:[
+ "<strong>One station at a time.</strong> Every exercise is straight sets on one machine, cable or pair of dumbbells. Nothing to hold while you walk across the gym.",
+ "<strong>Station taken?</strong> Open the card and tap one of the two alternatives. The swap lasts for today only — next time the card is back on the main exercise with its last weights.",
+ "<strong>Tick a set when it's done.</strong> If the boxes are empty the tick uses the grey numbers, which are what you did last time. The rest timer then starts on its own, including between exercises.",
+ "<strong>Everything on the page is the session.</strong> There is no optional add-on block at the end — the glute and hamstring work that used to sit there is now in the main list."]},
+{t:"📈 Progression",i:[
+ "<strong>Double progression.</strong> Use a weight where the last rep is slow but clean. When every set reaches the TOP of the rep range, add the smallest step next time (usually 2.5 kg for legs, 1–2 kg for arms and shoulders). The ▲ on a card means you've earned it.",
+ "<strong>Weeks 1–2: learn the movements.</strong> Start lighter than you think. Doing 2 sets instead of 3 while you're still sore is fine.",
+ "<strong>Six weeks, then a deload week</strong>: same weights, half the sets. The header counts the weeks for you.",
+ "Nothing to rate or judge — reps are counted, that's it."]},
+{t:"🎯 Why it's laid out this way",i:[
+ "<strong>Glutes come first:</strong> about 13 sets a week across hip thrusts, RDLs, lunges, kickbacks and the wide leg press, plus 6 sets of abduction. Hamstrings about 9, quads about 10.",
+ "<strong>Upper days build width and posture:</strong> back, side delts and rear delts get most of the upper-body work. Chest and arms get a small dose.",
+ "<strong>Nothing hits the same muscle two days running.</strong> Legs Monday and Thursday, upper body Tuesday and Friday, so each session starts fresh.",
+ "<strong>Exercises loaded in the stretch</strong> where there is a choice — seated leg curl, RDL, incline curl, overhead triceps. That position grows muscle best.",
+ "<strong>At least 60 s rest</strong> between sets. Shorter rest costs reps on the next set, and the reps are what build the muscle."]},
 {t:"🍗 Nutrition",i:[
-"<strong>Protein: 1.6-2.2 g/kg/day</strong> across 3-4 meals (e.g. 60 kg = 96-132g/day).",
-"For muscle building: caloric surplus of <strong>+200-300 kcal/day</strong> above maintenance.",
-"<strong>Under-eating is the #1 reason women don't see results.</strong> The program only works if you eat enough.",
-"Training will NOT make you 'bulky.' Women have ~15x less testosterone than men. The 'toned' look IS muscle.",
-"Creatine monohydrate 3-5g/day is safe and beneficial.",
-]},
-{t:"🎯 Key Form Cues",i:[
-"<strong>Hip Thrust:</strong> Back at bra-line level (not shoulder blades). Chin tucked. Drive through heels. Full lockout — squeeze glutes 1s. Don't hyperextend lower back.",
-"<strong>RDL:</strong> Slight knee bend, push hips BACK. Bar close to legs. Go as low as flexibility allows. Neutral spine always.",
-"<strong>Leg Press (glute):</strong> Feet HIGH and WIDE, toes out. Deep ROM. Shifts from quads to glutes/adductors.",
-"<strong>Leg Press (quad):</strong> Feet MIDDLE, shoulder-width. Normal depth.",
-"<strong>Seated Leg Curl:</strong> Lean forward slightly — stretches hamstrings more, produces significantly more growth.",
-"<strong>Cable Lateral Raise:</strong> Cable from opposite side behind body. Neutral grip. Shoulder height or above. 2-3s negative.",
-"<strong>All pressing:</strong> Retract & depress scapulae.",
-]},
-{t:"⚠️ What to Avoid",i:[
-"<strong>Heavy oblique work</strong> (weighted side bends, heavy Russian twists) — can thicken waist and create 'boxy' appearance.",
-"<strong>Direct trap work</strong> (shrugs) — overdeveloped traps create a sloped shoulder look. Rows provide enough stimulus.",
-"<strong>Neck training</strong> — not a female aesthetic priority.",
-"<strong>Forearm isolation</strong> — not needed. Pulling exercises provide sufficient stimulus.",
-"<strong>Running for cardio</strong> — specifically damages muscle fibers. Walking, cycling, elliptical = fine (2-3x/week, 20-30 min).",
-]},
-{t:"🔄 Exercise Rotation (between mesocycles)",i:[
-"<strong>Glutes:</strong> Smith Hip Thrust ↔ Barbell Glute Bridge ↔ Machine Hip Thrust",
-"<strong>Squat pattern:</strong> Leg Press ↔ Hack Squat ↔ Goblet Squat",
-"<strong>Lunge:</strong> Smith Reverse Lunge ↔ Bulgarian Split Squat ↔ Walking Lunge",
-"<strong>Hinge:</strong> Smith RDL ↔ DB RDL ↔ Cable Pull-Through",
-"<strong>Back:</strong> Wide Lat PD ↔ Neutral PD ↔ Machine PD | V-handle Row ↔ Wide Row ↔ Machine Row",
-"<strong>Shoulders:</strong> Cable Lateral ↔ DB Lateral ↔ Machine Lateral",
-]},
-{t:"💡 Menstrual Cycle & Training",i:[
-"<strong>Don't periodize around your cycle.</strong> Research shows no significant effect on strength or muscle growth across phases.",
-"On harder days (bloating, cramps, fatigue): simply drop RPE by 1 point. Keep the session. Consistency > periodization.",
-"If symptoms are severe on a given day, a lighter session is always better than skipping entirely.",
-]},
+ "<strong>Eat around maintenance, or up to ~150 kcal over.</strong> As a beginner she builds muscle without a big surplus — the training is the driver.",
+ "<strong>Protein 1.6–2 g per kg of bodyweight</strong> every day, spread over 3–4 meals (60 kg → about 100–120 g). Above 1.6 g/kg the benefit flattens.",
+ "<strong>Bodyweight: hold steady or gain up to 0.5 kg a month.</strong> Weigh in the morning a few times a week; the stats tab averages it and tells you which way to adjust.",
+ "<strong>Creatine monohydrate, 3–5 g a day</strong>, any time, no loading phase. Safe and well supported in women too."]},
+{t:"🔥 Warm-up",i:[
+ "<strong>5 minutes on the bike or an incline walk.</strong>",
+ "<strong>2–3 light ramp-up sets on the first exercise of the day</strong>, about 5 reps each, getting heavier. Don't log them.",
+ "Save static stretching for after the session — holding stretches beforehand makes you slightly weaker."]},
+{t:"🚴 Cardio",i:[
+ "<strong>Walking, cycling or the elliptical, 2–3 × 20–30 min</strong> a week, after lifting or on a rest day.",
+ "Cardio doesn't get in the way of building muscle. If she runs, keep it away from leg days — running interferes with leg growth more than cycling does."]},
+{t:"💡 Period and training",i:[
+ "<strong>No need to plan training around the cycle.</strong> Research finds no reliable difference in strength or muscle gain between phases.",
+ "On a rough day, use the same weights and do one or two fewer reps — a lighter session beats a skipped one."]},
+{t:"🧠 Myths",i:[
+ "<strong>Lifting won't make her bulky.</strong> Women have roughly 10–20× less testosterone than men; what people call 'toned' is muscle.",
+ "<strong>Ab work doesn't widen the waist.</strong> Crunches and dead bugs build the abs. Heavy weighted side bends are the only thing left out on purpose.",
+ "<strong>You can't burn fat from one spot</strong> by training that area. Body fat comes off where it comes off; the muscle underneath is what training changes."]},
+{t:"🔄 Rotation between blocks",i:[
+ "<strong>Hip thrust:</strong> Smith ↔ Hip Thrust Machine ↔ DB",
+ "<strong>Squat pattern:</strong> Leg Press ↔ Hack Squat ↔ Goblet Squat",
+ "<strong>Lunge:</strong> Smith Reverse Lunge ↔ DB Split Squat ↔ Step-Up",
+ "<strong>Hinge:</strong> Smith RDL ↔ DB RDL ↔ Cable Pull-Through",
+ "<strong>Back:</strong> Wide PD ↔ Neutral PD ↔ Machine PD | V-handle Row ↔ Wide Row ↔ Machine Row",
+ "<strong>Side delts:</strong> DB ↔ Machine ↔ Cable",
+ "The log follows the exercise, not its place in the list, so changing the order never scrambles her history."]},
 ];
 
-// Storage
-const dk=()=>new Date().toISOString().split('T')[0];
-function getW(di,ei){try{return JSON.parse(localStorage.getItem(`hg_${di}_${ei}`))||[]}catch(e){return[]}}
-function saveW(di,ei,arr){localStorage.setItem(`hg_${di}_${ei}`,JSON.stringify(arr))}
-function lastW(di,ei){const a=getW(di,ei);const today=dk();for(let i=a.length-1;i>=0;i--)if(a[i].d!==today)return a[i];return null}
-function todayW(di,ei){const a=getW(di,ei);const today=dk();for(let i=a.length-1;i>=0;i--)if(a[i].d===today)return a[i];return null}
-function logW(di,ei,val){const a=getW(di,ei);const today=dk();const idx=a.findIndex(x=>x.d===today);if(idx>=0)a[idx].w=val;else a.push({d:today,w:val});saveW(di,ei,a)}
-function fmtD(d){const dt=new Date(d+'T12:00:00');const ds=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];const ms=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return ds[dt.getDay()]+', '+ms[dt.getMonth()]+' '+dt.getDate()}
-
-const today=new Date().getDay();
-const dm={1:0,2:1,4:2,5:3};
-
-document.getElementById('tabs').innerHTML=D.map((d,i)=>`<button class="tab${d.dw===today?' today':''}" onclick="sd(${i})" id="t${i}">${d.sh}</button>`).join('')+`<button class="tab" onclick="sd(4)" id="t4">📋</button>`;
-
-let html='';
-D.forEach((day,di)=>{
-  let mn=0,an=0,ia=false,exH='';
-  day.ex.forEach((e,ei)=>{
-    if(e.n==='__S__'){ia=true;an=0;exH+=`<div class="addon-sep">Core & Finishers</div>`;return}
-    if(!ia)mn++;else an++;
-    const num=ia?`+${an}`:mn;
-    const cls=e.p?'pri':(e.a?'addon':'');
-    const tc=e.tech?`<div class="chip tech">${e.tech}</div>`:'';
-    const sub=e.su&&e.su!=='—'?`<div class="ex-sub">↳ Sub: ${e.su}</div>`:'';
-    const prev=lastW(di,ei);const tod=todayW(di,ei);
-    let prevH='<span style="color:var(--t3);font-size:11px">No previous data</span>';
-    if(prev){let trend='';if(tod&&tod.w&&prev.w){const diff=parseFloat(tod.w)-parseFloat(prev.w);if(diff>0)trend=`<span class="wt-trend up">↑ +${diff}</span>`;else if(diff<0)trend=`<span class="wt-trend down">↓ ${diff}</span>`;else trend=`<span class="wt-trend same">= same</span>`;}prevH=`<strong>${prev.w} kg</strong>${trend}<br><span class="date">${fmtD(prev.d)}</span> · <span style="color:var(--rose);font-size:10px">history ▾</span>`;}
-    const hist=getW(di,ei).slice(-5).reverse();
-    let histH='';if(hist.length>0){histH=`<div class="ex-hist"><div class="ex-hist-title">Recent History</div>${hist.map(h=>`<div class="hist-row"><span class="hist-date">${fmtD(h.d)}</span><span class="hist-val">${h.w} kg</span></div>`).join('')}</div>`;}
-    exH+=`<div class="ex ${cls}" id="e${di}_${ei}">
-      <div class="ex-main">
-        <div class="ex-top"><div class="ex-num">${num}</div><div class="ex-name">${e.n}</div></div>
-        <div class="chips">
-          <div class="chip"><span class="l">Sets</span> ${e.s}</div>
-          <div class="chip"><span class="l">Reps</span> ${e.r}</div>
-          <div class="chip"><span class="l">RPE</span> ${e.rpe}</div>
-          <div class="chip"><span class="l">Rest</span> ${e.rest}</div>
-          ${tc}
-        </div>
-        <div class="ex-notes">${e.nt}</div>
-        ${sub}
-        <div class="ex-wt" onclick="event.stopPropagation()">
-          <div class="ex-wt-prev" id="pv${di}_${ei}" onclick="th(${di},${ei})" style="cursor:pointer">${prevH}</div>
-          <div style="display:flex;align-items:center;gap:6px">
-            <input class="wt-input" id="wi${di}_${ei}" type="number" inputmode="decimal" placeholder="kg" value="${tod?tod.w:''}" onfocus="event.stopPropagation()">
-            <button class="wt-save${tod?' saved':''}" id="ws${di}_${ei}" onclick="event.stopPropagation();sv(${di},${ei})">${SAVE}</button>
-          </div>
-        </div>
-      </div>
-      <div class="ex-det" id="det${di}_${ei}">${histH}</div>
-    </div>`;
-  });
-  html+=`<div class="dv" id="d${di}"><div class="dlb">${day.lb}</div>${exH}</div>`;
-});
-
-let rh='<div class="dv" id="d4">';
-REFS.forEach(r=>{rh+=`<div class="ref" onclick="this.classList.toggle('open')"><div class="ref-h"><h3>${r.t}</h3>${CHV2}</div><div class="ref-b">${r.i.map(x=>`<div class="ref-i">${x}</div>`).join('')}</div></div>`;});
-rh+='</div>';html+=rh;
-document.getElementById('cnt').innerHTML=html;
-
-function sd(i){document.querySelectorAll('.dv').forEach(d=>d.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('d'+i).classList.add('active');document.getElementById('t'+i).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
-function th(di,ei){const el=document.getElementById('det'+di+'_'+ei);el.style.display=el.style.display==='block'?'none':'block'}
-function sv(di,ei){const inp=document.getElementById(`wi${di}_${ei}`);const val=inp.value.trim();if(!val)return;logW(di,ei,val);const btn=document.getElementById(`ws${di}_${ei}`);btn.classList.add('saved');const prev=lastW(di,ei);const pv=document.getElementById(`pv${di}_${ei}`);if(prev){let trend='';const diff=parseFloat(val)-parseFloat(prev.w);if(diff>0)trend=`<span class="wt-trend up">↑ +${diff}</span>`;else if(diff<0)trend=`<span class="wt-trend down">↓ ${diff}</span>`;else trend=`<span class="wt-trend same">= same</span>`;pv.innerHTML=`<strong>${prev.w} kg</strong>${trend}<br><span class="date">${fmtD(prev.d)}</span> · <span style="color:var(--rose);font-size:10px">history ▾</span>`;}toast('✓ Saved')}
-function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1400)}
-
-sd(dm[today]!==undefined?dm[today]:0);
+/* Compound lifts give half credit to secondary movers. */
+const MUS={
+ "leg-press":{Quads:1,Glutes:.5},"leg-press-glute":{Quads:1,Glutes:.5},
+ "hip-thrust":{Glutes:1},"hip-thrust-heavy":{Glutes:1},"cable-kickback":{Glutes:1},
+ "reverse-lunge":{Glutes:.5,Quads:.5},"smith-rdl":{Hamstrings:1,Glutes:.5},
+ "seated-leg-curl":{Hamstrings:1},"leg-extension":{Quads:1},
+ "hip-abduction":{"Glute med":1},"standing-calf":{Calves:1},
+ "lat-pulldown-wide":{Back:1,Biceps:.5},"neutral-pulldown":{Back:1,Biceps:.5},
+ "seated-cable-row":{Back:1,"Rear delt":.5,Biceps:.5},"chest-supported-row":{Back:1,"Rear delt":.5,Biceps:.5},
+ "machine-shoulder-press":{"Front delt":1,"Side delt":.5,Triceps:.5},
+ "db-lateral":{"Side delt":1},"lateral-raise-machine":{"Side delt":1},
+ "reverse-pec-deck":{"Rear delt":1},"face-pull":{"Rear delt":1},
+ "machine-incline-press":{Chest:1,Triceps:.5},"machine-chest-press":{Chest:1,Triceps:.5},
+ "cable-pushdown":{Triceps:1},"oh-cable-triceps":{Triceps:1},
+ "incline-db-curl":{Biceps:1},"bayesian-curl":{Biceps:1},
+ "dead-bug":{Abs:1},"cable-crunch":{Abs:1}};
 </script>
+<script src="engine.js"></script>
 </body>
 </html>
