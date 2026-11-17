@@ -191,7 +191,7 @@ let syncT=null, syncBusy=false, syncAgain=false, syncState='off';
 function syncKey(){
   const q=new URLSearchParams(location.search).get('k')||new URLSearchParams(location.hash.slice(1)).get('k');
   if(q&&/^[A-Za-z0-9_-]{16,64}$/.test(q)&&q!==localStorage.getItem(KSK))localStorage.setItem(KSK,q);
-  return localStorage.getItem(KSK)}
+  return localStorage.getItem(KSK)||CFG.sync||null}
 function queueSync(){if(!syncKey())return;setSync('pending');clearTimeout(syncT);syncT=setTimeout(sync,1200)}
 async function sync(){
   const key=syncKey(); if(!key){setSync('off');return}
@@ -292,7 +292,7 @@ function render(){
   }
 
   const P=PROG[day], dr=drafts();
-  let h=`<div class="dv active"><div class="dlb">${P.lb}${isDeload(wk)?' · deload: same weights, half the sets':''}</div>`, n=0;
+  let h=`<div class="dv active">${installHTML()}<div class="dlb">${P.lb}${isDeload(wk)?' · deload: same weights, half the sets':''}</div>`, n=0;
   P.slots.forEach((sl,si)=>{
     const isMyo=!!sl.ex[0].myo;
     h+=`<div class="slot${isMyo?' myo':''}">`;
@@ -545,6 +545,20 @@ function statsHTML(){
    <div class="card"><h4>Progression check</h4>
      <div class="cap">Best set (weight × reps) versus three sessions ago, on the same day.</div>
      ${stallBody}</div></div>`;
+}
+
+/* ═══════════ add-to-home-screen guide (iPhone, not yet installed) ═══════════ */
+function installHTML(){
+  const ios=/iPhone|iPad|iPod/.test(navigator.userAgent), inst=navigator.standalone||matchMedia('(display-mode: standalone)').matches;
+  let off=false;try{off=localStorage.getItem(K+'nohint')==='1'}catch(e){}
+  if(!ios||inst||off)return '';
+  const inApp=/FBAN|FBAV|Instagram|Telegram|Line\/|Messenger|GSA\//.test(navigator.userAgent);
+  return `<div class="inst"><b>Put this on your home screen</b>
+   <ol>${inApp?'<li>You\'re inside another app\'s browser — tap <b>•••</b> and choose <b>Open in Safari</b> first.</li>':''}
+   <li>In Safari tap <b>•••</b> at the bottom right (or the <b>Share</b> icon <span class="shr">⬆︎</span>).</li>
+   <li>Tap <b>Share</b> if needed, scroll down, tap <b>Add to Home Screen</b>, then <b>Add</b>.</li></ol>
+   <span class="cap2">Not in the list? Scroll to the bottom → Edit Actions → add it. Your log is the same in Safari and in the app.</span>
+   <button onclick="try{localStorage.setItem(K+'nohint','1')}catch(e){};render()">Done — hide this</button></div>`;
 }
 
 /* ═══════════ actions ═══════════ */
