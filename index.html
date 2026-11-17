@@ -50,11 +50,14 @@ const CFG={
  rir:1,                 // show the effort target on each card            // session clock turns orange past this
  band:[10,20],          // weekly sets per muscle, green zone on the stats tab
  bandNote:'the green zone is 10–20 hard sets a week.',
- bw:{lo:.25,hi:.6,cap:'Target 0.3–0.5 kg per month while gaining.',
-  msg:(r,ok)=>ok ? 'That\'s the right rate — roughly a year from 73 to 78 kg, and most of it muscle.'
-          : r>.6 ? 'Too fast. Above ~0.5 kg a month the extra is mostly fat — take 200–300 kcal off.'
-          : r<0 ? 'You\'re losing weight. If you meant to be gaining, add 200–300 kcal.'
-                : 'Too slow to be gaining. Add about 200 kcal and re-check in two weeks.'},
+ bw:{per:7, lo:-.55, hi:-.3,   // cut: lose 0.3–0.5 kg a week (0.5–0.7% of bodyweight)
+  cap:'Cutting: target −0.35 to −0.5 kg a week (0.5–0.7% of bodyweight) — the fastest pace that still keeps the muscle.',
+  msg:(r,ok)=>ok ? 'Right pace — about as fast as you can lose without giving up muscle. Keep calories where they are.'
+          : r< -.55 ? 'Faster than ~0.5 kg a week. Past this, more of the loss is muscle — add 100–150 kcal.'
+          : (Date.now()<+new Date('2026-12-01')) ? 'Slower than target, but creatine (started 2 Nov) is still adding water until about late November — don\'t cut calories yet. Judge from 1 December.'
+          : r<0 ? 'Slower than target. Take off 100–150 kcal or add ~2,000 steps a day, then give it two weeks.'
+                : 'Not losing. Take off 150–200 kcal and re-check in two weeks.'},
+ marks:[{d:'2026-11-02',t:'creatine'}],
 };
 
 const PROG=[
@@ -204,10 +207,14 @@ const REFS=[
 {t:"🚴 Cardio",i:[
  "Concurrent training doesn't cost muscle; the bike, incline walk or elliptical interfere less than running.",
  "2 × 20–30 min easy, on Monday or Thursday, or after lifting — never before."]},
-{t:"🍗 Nutrition — 73 kg",i:[
- "<strong>2700–2850 kcal, protein 140–155 g.</strong>",
- "<strong>Gain 0.3–0.5 kg per MONTH.</strong> The Weight tab shows the 7-day average and the monthly rate — steer by that, not by one morning's number.",
- "<strong>Creatine monohydrate, 3–5 g a day</strong>, every day."]},
+{t:"🍗 Cut — 70.7 kg, 170 cm",i:[
+ "<strong>Target: lose 0.35–0.5 kg a week</strong> (0.5–0.7% of bodyweight). Garthe 2011: athletes losing 0.7%/week kept more muscle and strength than those losing 1.4%. Milo Wolf: past a ~500 kcal/day deficit lean-mass loss starts climbing. The Weight tab turns orange outside this band.",
+ "<strong>Calories: stay at 1950.</strong> It's already close to the safe edge. Change it only from the 7-day-average trend, never from one morning: under 0.3 kg/week for 2 weeks → −100–150 kcal (or +2,000 steps a day); over 0.6 kg/week → +100–150 kcal.",
+ "<strong>Protein: 160 g</strong> (~2.3 g/kg). 140 g works but sits at the bottom of the cutting range — Nippard says 1.8–2.7 g/kg on a cut, Milo Wolf ~2.35 g/kg for men.",
+ "<strong>Creatine since 2 Nov</strong> adds about 0.5–1.5 kg of water over 2–3 weeks, so November's scale hides fat loss. Judge the trend from 1 December. Keep taking it — 3–5 g every day.",
+ "<strong>The muscle check is strength, not the scale.</strong> If most lifts hold their weight × reps while you get lighter, you're keeping muscle. The 📊 tab's progression check flags lifts that stall on the same day three sessions running; half the list stalling at once = eat 100–150 kcal more.",
+ "<strong>Also track:</strong> waist at the navel once a week, photos every 2 weeks, 7–10k steps a day.",
+ "<strong>Length:</strong> cut 8–12 weeks (you started ~8 Oct → finish mid-December to early January), then 4–8 weeks at maintenance before any further cut."]},
 {t:"🔄 Rotation between blocks",i:[
  "<strong>Chest upper:</strong> Low Incline DB ↔ Smith Incline ↔ Machine Incline",
  "<strong>Chest mid:</strong> Machine Press ↔ Pec Deck ↔ Mid Cable Fly",

@@ -151,7 +151,7 @@ function bwTrend(){const a=bwAll();if(!a.length)return null;
   const avg=r=>r.reduce((s,x)=>s+x.w,0)/r.length;
   const latest=a[a.length-1];
   if(!R.length||!O.length)return {latest,n:a.length,cur:R.length?avg(R):null};
-  return {latest,n:a.length,cur:avg(R),rate:(avg(R)-avg(O))/28*SCALE}}
+  return {latest,n:a.length,cur:avg(R),rate:(avg(R)-avg(O))/28*(CFG.bw.per||30)}}
 function stalls(){const out=[];
   logKeys().forEach(id=>{const g={};
     getEx(id).filter(e=>live(e).some(x=>x.r)).forEach(e=>{const s=dayOf(id,e)||'?';(g[s]=g[s]||[]).push(e)});
@@ -382,8 +382,8 @@ function bwHTML(){
       <div class="stat"><div class="k">7-day average</div><div class="v">${n1(last)}<small> kg</small></div><div class="n">today's weigh-in ${n1(a[a.length-1].w)}</div></div>
       <div class="stat"><div class="k">Last 30 days</div><div class="v">${ch30==null?'–':(ch30>0?'+':'')+n1(ch30)}<small> kg</small></div><div class="n">7-day average vs 30 days ago</div></div></div>`;
     if(tr&&tr.rate!==undefined){const ok=tr.rate>=CFG.bw.lo&&tr.rate<=CFG.bw.hi;
-      tiles+=`<div class="note ${ok?'ok':'warn'}">Trending <b>${tr.rate>0?'+':''}${n1(tr.rate)} kg / month</b>. ${CFG.bw.msg(tr.rate,ok)}</div>`}
-    else tiles+=`<div class="note">${CFG.bw.cap} The monthly rate shows once there are 4–5 weeks of weigh-ins.</div>`;
+      tiles+=`<div class="note ${ok?'ok':'warn'}">Trending <b>${tr.rate>0?'+':''}${(CFG.bw.per||30)<10?Math.round(tr.rate*100)/100:n1(tr.rate)} kg / ${(CFG.bw.per||30)<10?'week':'month'}</b>${(CFG.bw.per||30)<10&&tr.cur?' ('+(tr.rate>0?'+':'')+n1(tr.rate/tr.cur*100)+'% of bodyweight)':''}. ${CFG.bw.msg(tr.rate,ok)}</div>`}
+    else tiles+=`<div class="note">${CFG.bw.cap} The trend shows once there are 4–5 weeks of weigh-ins.</div>`;
   }
   const rng=['1m','3m','6m','all'].map(r=>`<button class="chip${bwRange===r?' on':''}" onclick="bwRange='${r}';try{localStorage.setItem(KBWR,JSON.stringify(bwRange))}catch(e){};render()">${r==='all'?'All':r.toUpperCase()}</button>`).join('');
   const list=a.slice().reverse(), shown=list.slice(0,14);
@@ -425,6 +425,8 @@ function drawBW(){
   const nT=Math.min(4,pts.length);
   for(let k=0;k<nT;k++){const t=t0+(t1-t0)*(nT===1?0:k/(nT-1)),dd=new Date(t);
     g+=`<text x="${X(t)}" y="${H-6}" class="ax" text-anchor="${k===0?'start':k===nT-1?'end':'middle'}">${dd.getDate()} ${MON[dd.getMonth()]}</text>`}
+  (CFG.marks||[]).forEach(m=>{const t=+D(m.d);if(t<t0||t>t1)return;
+    g+=`<line x1="${X(t)}" x2="${X(t)}" y1="${T}" y2="${H-B}" class="mk"/><text x="${X(t)+4}" y="${T+9}" class="mkt">${m.t}</text>`});
   const dots=pts.map(p=>`<circle cx="${X(p.t)}" cy="${Y(p.w)}" r="${pts.length>120?1.8:2.6}" class="dot"/>`).join('');
   const line=pts.map((p,i)=>(i?'L':'M')+X(p.t).toFixed(1)+' '+Y(p.av).toFixed(1)).join('');
   const lp=pts[pts.length-1];

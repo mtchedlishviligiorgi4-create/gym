@@ -251,3 +251,5 @@ details summary::-webkit-details-marker{display:none}
 .card details summary h4{color:var(--t)}
 textarea{width:100%;margin-top:8px;padding:10px;border-radius:10px;border:1.5px solid var(--b);background:var(--w2);color:var(--t);font:500 14px/1.45 ui-monospace,Menlo,monospace;outline:none;resize:vertical}
 textarea:focus{border-color:var(--bl)}
+.chart .mk{stroke:var(--or);stroke-width:1;stroke-dasharray:2 3;opacity:.8}
+.chart .mkt{fill:var(--or);font-size:9.5px;font-weight:700}
