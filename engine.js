@@ -393,6 +393,7 @@ function bwHTML(){
    <div class="card"><div class="chart-h"><h4>Bodyweight</h4><div class="chips sm">${rng}</div></div>
     ${a.length?`<div class="legend"><span><i class="lg-dot"></i>Daily weigh-in</span><span><i class="lg-line"></i>7-day average</span></div><div class="chart" id="bwChart"></div>`:'<div class="note">No weigh-ins yet. Log today above, or paste your old records below.</div>'}
     ${tiles}</div>
+   ${a.length?weeklyHTML(a):''}
    ${a.length?`<div class="card"><h4>Entries <span class="muted">${a.length}</span></h4>
     ${shown.map((x,i)=>{const p=list[i+1],dl=p?x.w-p.w:null;
       return `<div class="bwl"><span>${fmtD(x.d)}</span><b>${n1(x.w)} kg</b><span class="dl">${dl==null?'':(dl>0?'+':'')+n1(dl)}</span><button onclick="delBW('${x.d}')" aria-label="Remove">×</button></div>`}).join('')}
@@ -404,6 +405,31 @@ function bwHTML(){
     <div id="imPrev" class="note" style="display:none"></div>
     <div class="bwrow" style="margin-top:8px"><button class="ghost" onclick="importBW(false)">Preview</button><button onclick="importBW(true)">Import</button></div></details></div>
   </div>`;
+}
+/* one row per calendar week (Mon–Sun): average, change vs the week before, pace */
+function weeklyHTML(a){
+  const per=CFG.bw.per||30, lo=CFG.bw.lo*7/per, hi=CFG.bw.hi*7/per, wk={};
+  a.forEach(x=>{const m=monday(x.d);(wk[m]=wk[m]||[]).push(x.w)});
+  const ks=Object.keys(wk).sort(), cur=monday(dk());
+  const rows=ks.map((m,i)=>{const v=wk[m],avg=v.reduce((s,x)=>s+x,0)/v.length;
+    const p=i?wk[ks[i-1]]:null, pa=p?p.reduce((s,x)=>s+x,0)/p.length:null;
+    const gap=i?Math.round((D(m)-D(ks[i-1]))/(7*864e5)):1;
+    const dl=pa==null?null:(avg-pa)/gap;
+    const mk=(CFG.marks||[]).find(k=>monday(k.d)<=m&&(D(m)-D(monday(k.d)))/864e5<21);
+    let st='',cls='';
+    if(dl!=null&&v.length>=3){
+      if(dl>=lo&&dl<=hi){st='on pace';cls='ok'}
+      else if(dl<lo){st=CFG.bw.lo<0?'too fast':'too slow';cls='warn'}
+      else{st=CFG.bw.lo<0?(dl>0?'gained':'slow'):'too fast';cls='warn'}
+      if(mk&&cls==='warn'&&dl>lo)st+=' · '+mk.t;
+    }
+    const sun=D(m);sun.setDate(sun.getDate()+6);const s0=D(m);
+    const lbl=s0.getMonth()===sun.getMonth()?s0.getDate()+'–'+sun.getDate()+' '+MON[sun.getMonth()]:s0.getDate()+' '+MON[s0.getMonth()]+' – '+sun.getDate()+' '+MON[sun.getMonth()];
+    return `<div class="wkr"><span class="wl">${lbl}${m===cur?'<small>so far · '+v.length+' day'+(v.length>1?'s':'')+'</small>':v.length<7?'<small>'+v.length+' weigh-ins</small>':''}</span>
+      <b>${n1(avg)}</b><span class="wd">${dl==null?'–':(dl>0?'+':'')+(Math.round(dl*100)/100).toFixed(2)}<small>${dl==null?'':(dl>0?'+':'')+n1(dl/pa*100)+'%'}</small></span>
+      <span class="ws ${cls}">${st}</span></div>`}).reverse();
+  return `<div class="card"><h4>Week by week</h4><div class="cap">Average of each Mon–Sun week and the change from the week before. Target ${Math.round(Math.abs(hi)*100)/100}–${Math.round(Math.abs(lo)*100)/100} kg a week${CFG.bw.lo<0?' down':''}. Weeks with fewer than 3 weigh-ins aren't judged.</div>
+    <div class="wkr wkh"><span>Week</span><span>Avg kg</span><span>Change</span><span></span></div>${rows.join('')}</div>`;
 }
 function drawBW(){
   const el=document.getElementById('bwChart');if(!el)return;
