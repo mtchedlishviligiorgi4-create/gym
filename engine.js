@@ -151,7 +151,8 @@ function bwTrend(){const a=bwAll();if(!a.length)return null;
   const avg=r=>r.reduce((s,x)=>s+x.w,0)/r.length;
   const latest=a[a.length-1];
   if(!R.length||!O.length)return {latest,n:a.length,cur:R.length?avg(R):null};
-  return {latest,n:a.length,cur:avg(R),rate:(avg(R)-avg(O))/28*(CFG.bw.per||30)}}
+  const mid=r=>r.reduce((s,x)=>s+age(x),0)/r.length;   // mean age of the weigh-ins, not the window's nominal centre
+  return {latest,n:a.length,cur:avg(R),rate:(avg(R)-avg(O))/(mid(O)-mid(R))*(CFG.bw.per||30)}}
 function stalls(){const out=[];
   logKeys().forEach(id=>{const g={};
     getEx(id).filter(e=>live(e).some(x=>x.r)).forEach(e=>{const s=dayOf(id,e)||'?';(g[s]=g[s]||[]).push(e)});
@@ -311,7 +312,7 @@ function render(){
         const mini=x.myo&&i>0, wid=`w-${si}-${xi}-${i}`, rid=`p-${si}-${xi}-${i}`;
         rows+=`<div class="srow${st?' done':''}${mini?' mini':''}" id="r-${si}-${xi}-${i}">
           <div class="sn">${mini?'+':i+1}</div>
-          <div class="fld"><input type="number" inputmode="decimal" step="0.5" placeholder="${pv?n1(pv.w):''}" value="${st?n1(st.w):(dr[day+':'+wid]||'')}" id="${wid}" oninput="draft(this)"><span class="u">kg</span></div>
+          <div class="fld"><input type="text" inputmode="decimal" autocomplete="off" placeholder="${pv?n1(pv.w):''}" value="${st?n1(st.w):(dr[day+':'+wid]||'')}" id="${wid}" oninput="draft(this)"><span class="u">kg</span></div>
           <div class="fld"><input type="number" inputmode="numeric" placeholder="${ps&&ps.sets[i]&&ps.sets[i].r?ps.sets[i].r:(mini?'5':x.r.split(/[–-]/)[0])}" value="${st?st.r:(dr[day+':'+rid]||'')}" id="${rid}" oninput="draft(this)"></div>
           <button class="tick" onclick="mark(${si},${xi},${i})">${TICK}</button></div>`;
       }
@@ -379,7 +380,7 @@ function bwHTML(){
     const ago=a.findIndex(x=>x.d>=dk(new Date(D(dk())-30*864e5)));
     const ch30=ago>=0&&ago<a.length-1?last-av[ago]:null;
     tiles=`<div class="stat-g">
-      <div class="stat"><div class="k">7-day average</div><div class="v">${n1(last)}<small> kg</small></div><div class="n">today's weigh-in ${n1(a[a.length-1].w)}</div></div>
+      <div class="stat"><div class="k">7-day average</div><div class="v">${n1(last)}<small> kg</small></div><div class="n">${a[a.length-1].d===dk()?"today's weigh-in":'last weigh-in '+fmtD(a[a.length-1].d)} ${n1(a[a.length-1].w)}</div></div>
       <div class="stat"><div class="k">Last 30 days</div><div class="v">${ch30==null?'–':(ch30>0?'+':'')+n1(ch30)}<small> kg</small></div><div class="n">7-day average vs 30 days ago</div></div></div>`;
     if(tr&&tr.rate!==undefined){const ok=tr.rate>=CFG.bw.lo&&tr.rate<=CFG.bw.hi;
       tiles+=`<div class="note ${ok?'ok':'warn'}">Trending <b>${tr.rate>0?'+':''}${(CFG.bw.per||30)<10?Math.round(tr.rate*100)/100:n1(tr.rate)} kg / ${(CFG.bw.per||30)<10?'week':'month'}</b>${(CFG.bw.per||30)<10&&tr.cur?' ('+(tr.rate>0?'+':'')+n1(tr.rate/tr.cur*100)+'% of bodyweight)':''}. ${CFG.bw.msg(tr.rate,ok)}</div>`}
@@ -389,7 +390,7 @@ function bwHTML(){
   const list=a.slice().reverse(), shown=list.slice(0,14);
   return `<div class="dv active">
    <div class="card"><h4>Log a weigh-in</h4><div class="cap">Daily, first thing in the morning, after the toilet, before food. The single number is noise — the line is the 7-day average.</div>
-    <div class="bwrow"><input id="bwDate" type="date" value="${dk()}" max="${dk()}"><input id="bwIn" type="number" step="0.1" inputmode="decimal" placeholder="${a.length?n1(a[a.length-1].w):'kg'}"><button onclick="saveBW()">Save</button></div></div>
+    <div class="bwrow"><input id="bwDate" type="date" value="${dk()}" max="${dk()}"><input id="bwIn" type="text" inputmode="decimal" autocomplete="off" placeholder="${a.length?n1(a[a.length-1].w):'kg'}"><button onclick="saveBW()">Save</button></div></div>
    <div class="card"><div class="chart-h"><h4>Bodyweight</h4><div class="chips sm">${rng}</div></div>
     ${a.length?`<div class="legend"><span><i class="lg-dot"></i>Daily weigh-in</span><span><i class="lg-line"></i>7-day average</span></div><div class="chart" id="bwChart"></div>`:'<div class="note">No weigh-ins yet. Log today above, or paste your old records below.</div>'}
     ${tiles}</div>
@@ -409,10 +410,14 @@ function bwHTML(){
 /* one row per calendar week (Mon–Sun): average, change vs the week before, pace */
 function weeklyHTML(a){
   const per=CFG.bw.per||30, lo=CFG.bw.lo*7/per, hi=CFG.bw.hi*7/per, wk={};
-  a.forEach(x=>{const m=monday(x.d);(wk[m]=wk[m]||[]).push(x.w)});
+  a.forEach(x=>{const m=monday(x.d);(wk[m]=wk[m]||[]).push(x)});
   const ks=Object.keys(wk).sort(), cur=monday(dk());
-  const rows=ks.map((m,i)=>{const v=wk[m],avg=v.reduce((s,x)=>s+x,0)/v.length;
-    const p=i?wk[ks[i-1]]:null, pa=p?p.reduce((s,x)=>s+x,0)/p.length:null;
+  const off=d=>Math.round((D(d)-D(monday(d)))/864e5), todayOff=off(dk());
+  const rows=ks.map((m,i)=>{const v=wk[m].map(x=>x.w),avg=v.reduce((s,x)=>s+x,0)/v.length;
+    let p=i?wk[ks[i-1]]:null;
+    // this week so far (Mon..today) vs the same Mon..today of last week, so a half-week isn't judged against a whole one
+    if(p&&m===cur){const q=p.filter(x=>off(x.d)<=todayOff);if(q.length)p=q;else p=null}
+    p=p&&p.map(x=>x.w);const pa=p?p.reduce((s,x)=>s+x,0)/p.length:null;
     const gap=i?Math.round((D(m)-D(ks[i-1]))/(7*864e5)):1;
     const dl=pa==null?null:(avg-pa)/gap;
     const mk=(CFG.marks||[]).find(k=>monday(k.d)<=m&&(D(m)-D(monday(k.d)))/864e5<21);
@@ -425,10 +430,10 @@ function weeklyHTML(a){
     }
     const sun=D(m);sun.setDate(sun.getDate()+6);const s0=D(m);
     const lbl=s0.getMonth()===sun.getMonth()?s0.getDate()+'–'+sun.getDate()+' '+MON[sun.getMonth()]:s0.getDate()+' '+MON[s0.getMonth()]+' – '+sun.getDate()+' '+MON[sun.getMonth()];
-    return `<div class="wkr"><span class="wl">${lbl}${m===cur?'<small>so far · '+v.length+' day'+(v.length>1?'s':'')+'</small>':v.length<7?'<small>'+v.length+' weigh-ins</small>':''}</span>
+    return `<div class="wkr"><span class="wl">${lbl}${m===cur?'<small>so far · '+v.length+' day'+(v.length>1?'s':'')+(i&&todayOff<6?' · vs '+WD[1]+'–'+WD[(todayOff+1)%7]+' last wk':'')+'</small>':v.length<7?'<small>'+v.length+' weigh-ins</small>':''}</span>
       <b>${n1(avg)}</b><span class="wd">${dl==null?'–':(dl>0?'+':'')+(Math.round(dl*100)/100).toFixed(2)}<small>${dl==null?'':(dl>0?'+':'')+n1(dl/pa*100)+'%'}</small></span>
       <span class="ws ${cls}">${st}</span></div>`}).reverse();
-  return `<div class="card"><h4>Week by week</h4><div class="cap">Average of each Mon–Sun week and the change from the week before. Target ${Math.round(Math.abs(hi)*100)/100}–${Math.round(Math.abs(lo)*100)/100} kg a week${CFG.bw.lo<0?' down':''}. Weeks with fewer than 3 weigh-ins aren't judged.</div>
+  return `<div class="card"><h4>Week by week</h4><div class="cap">Average of each Mon–Sun week and the change from the week before. The current week is compared with the same days of last week. Target ${Math.round(Math.abs(hi)*100)/100}–${Math.round(Math.abs(lo)*100)/100} kg a week${CFG.bw.lo<0?' down':''}. Weeks with fewer than 3 weigh-ins aren't judged.</div>
     <div class="wkr wkh"><span>Week</span><span>Avg kg</span><span>Change</span><span></span></div>${rows.join('')}</div>`;
 }
 function drawBW(){
@@ -502,7 +507,7 @@ function importBW(go){
   r.forEach(x=>{const i=a.findIndex(y=>y.d===x.d),e={d:x.d,w:x.w,t};if(i>=0)a[i]=e;else a.push(e)});
   a.sort((x,y)=>x.d<y.d?-1:1);W(KBW,a);queueSync();render();toast('Imported '+r.length+' weigh-ins');
 }
-function saveBW(){const i=document.getElementById('bwIn'),v=i.value.trim().replace(',','.'),d=document.getElementById('bwDate').value||dk();
+function saveBW(){const i=document.getElementById('bwIn'),v=i.value.trim().replace(/\s/g,'').replace(',','.'),d=document.getElementById('bwDate').value||dk();
   if(!v||!(+v>30&&+v<250)){toast('Enter a weight');return}
   logBW(v,d);render();toast('Logged '+n1(+v)+' kg · '+fmtD(d))}
 
@@ -575,6 +580,7 @@ function mark(si,xi,i){
   }
   const w=(wi.value.trim()||wi.placeholder||(x.bw?'0':'')).replace(',','.'), r=pi.value.trim()||pi.placeholder;
   if(!w||!r){toast('Weight and reps first');wi.focus();return}
+  if(isNaN(+w)){toast('Weight should be a number, like 62,5');wi.focus();return}
   wi.value=w;pi.value=r;
   logSet(xid,i,w,r);clearDraft([wi.id,pi.id]);
   row.classList.add('done');
@@ -642,7 +648,10 @@ day=Math.max(0,PROG.findIndex(d=>d.dw===new Date().getDay()));
 render();
 setSync(syncKey()?'pending':'off');sync();
 setInterval(paint,30000);
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){sync();if(day<PROG.length)paint()}});
+let shownDay=dk();
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){sync();
+  const a=document.activeElement;
+  if(shownDay!==dk()&&(!a||a.tagName!=='INPUT')){shownDay=dk();render()}else if(day<PROG.length)paint()}});
 addEventListener('online',sync);
 addEventListener('resize',()=>{if(day===BW)drawBW()});
 document.getElementById('sheet').addEventListener('click',e=>{
